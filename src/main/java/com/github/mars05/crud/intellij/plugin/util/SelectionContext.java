@@ -9,8 +9,9 @@ import java.util.List;
  * @author xiaoyu
  */
 public class SelectionContext {
-    public static final int MYBATIS = 0;
-    public static final int JPA = 1;
+    public static final int MYBATIS_PLUS = 0;
+    public static final int MYBATIS = 1;
+    public static final int JPA = 2;
     private static String projectType;
     private static int ormType;
     private static Conn conn;

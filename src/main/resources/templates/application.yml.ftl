@@ -15,7 +15,18 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
-<#if ormType==0>
+<#if ormType==1>
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
+</#if>
+<#if ormType==0>
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  typeAliasesPackage: cn.ideamake.template.pojo.entity
+  global-config:
+    db-config:
+      id-type: UUID
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
 </#if>

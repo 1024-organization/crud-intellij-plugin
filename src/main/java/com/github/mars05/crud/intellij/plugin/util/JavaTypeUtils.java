@@ -3,6 +3,9 @@ package com.github.mars05.crud.intellij.plugin.util;
 import java.math.BigDecimal;
 import java.sql.JDBCType;
 import java.sql.Types;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
@@ -28,9 +31,9 @@ public class JavaTypeUtils {
         map.put(JDBCType.DECIMAL, BigDecimal.class);
         //其他类型
         map.put(JDBCType.BOOLEAN, Boolean.class);
-        map.put(JDBCType.DATE, Date.class);
-        map.put(JDBCType.TIME, Date.class);
-        map.put(JDBCType.TIMESTAMP, Date.class);
+        map.put(JDBCType.DATE, LocalDate.class);
+        map.put(JDBCType.TIME, LocalTime.class);
+        map.put(JDBCType.TIMESTAMP, LocalDateTime.class);
         map.put(JDBCType.BIT, boolean.class);
     }
 

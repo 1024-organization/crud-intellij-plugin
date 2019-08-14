@@ -32,6 +32,9 @@ import org.jetbrains.idea.maven.project.MavenProjectsManager;
 import javax.swing.*;
 import java.io.File;
 
+import static com.github.mars05.crud.intellij.plugin.util.SelectionContext.MYBATIS;
+import static com.github.mars05.crud.intellij.plugin.util.SelectionContext.MYBATIS_PLUS;
+
 /**
  * @author xiaoyu
  */
@@ -96,7 +99,7 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
     private void initProject(Project project, Selection selection) throws Exception {
         initMavenStructure();
         //pom.xml生成
-        PsiFileUtils.createPOMXML(project, createAndGetContentEntry(), selection);
+        PsiFileUtils.createPomXml(project, createAndGetContentEntry(), selection);
         //swagger生成
         PsiFileUtils.createSwagger(project, createPackageDir(selection.getPackage() + ".config"), selection);
         //Application类生成
@@ -106,12 +109,13 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
 
         selection.setModelPackage(selection.getPackage() + ".model");
         selection.setDaoPackage(selection.getPackage() + ".dao");
-        if (selection.getOrmType() == SelectionContext.MYBATIS) {
+        if (selection.getOrmType() == MYBATIS || selection.getOrmType() == MYBATIS_PLUS) {
             selection.setMapperDir(getContentEntryPath() + "/src/main/resources/mapper");
         }
         selection.setServicePackage(selection.getPackage() + ".service");
         selection.setControllerPackage(selection.getPackage() + ".controller");
 
+        // 生成代码核心
         PsiFileUtils.createCrud(project, selection, getContentEntryPath());
         //解决依赖
         MavenProjectsManager.getInstance(project).forceUpdateAllProjectsOrFindAllAvailablePomFiles();

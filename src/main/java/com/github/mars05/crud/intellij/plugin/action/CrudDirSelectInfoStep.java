@@ -17,6 +17,8 @@ import com.intellij.psi.search.GlobalSearchScope;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+import static com.github.mars05.crud.intellij.plugin.util.SelectionContext.*;
+
 /**
  * @author xiaoyu
  */
@@ -116,7 +118,22 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
             throw new ConfigurationException("未选择需要生成的文件");
         }
         JavaPsiFacade facade = JavaPsiFacade.getInstance(myProject);
-        if (0 == myFrameComboBox.getSelectedIndex()) {
+
+        int selectedIndex = myFrameComboBox.getSelectedIndex();
+        int ormType;
+
+        // 检查依赖包是否存在
+        if (selectedIndex == MYBATIS_PLUS) {
+            try {
+                Preconditions.checkNotNull(facade.findClass("org.apache.ibatis.session.SqlSession", GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(myModule)),
+                        "org.apache.ibatis.session.SqlSession 未找到");
+                Preconditions.checkNotNull(facade.findClass("org.mybatis.spring.SqlSessionFactoryBean", GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(myModule)),
+                        "org.mybatis.spring.SqlSessionFactoryBean 未找到");
+            } catch (Exception e) {
+                throw new ConfigurationException(e.getMessage(), "缺少依赖");
+            }
+            ormType = MYBATIS_PLUS;
+        } else if (selectedIndex == MYBATIS) {
             try {
                 Preconditions.checkNotNull(facade.findClass("org.apache.ibatis.session.SqlSession", GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(myModule)),
                         "org.apache.ibatis.session.SqlSession 未找到");
@@ -127,7 +144,7 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
             } catch (Exception e) {
                 throw new ConfigurationException(e.getMessage(), "缺少依赖");
             }
-            SelectionContext.setOrmType(SelectionContext.MYBATIS);
+            ormType = MYBATIS;
         } else {
             try {
                 Preconditions.checkNotNull(facade.findClass("javax.persistence.Table", GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(myModule)),
@@ -139,8 +156,10 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
             } catch (Exception e) {
                 throw new ConfigurationException(e.getMessage(), "缺少依赖");
             }
-            SelectionContext.setOrmType(SelectionContext.JPA);
+            ormType = JPA;
         }
+
+        SelectionContext.setOrmType(ormType);
 
         //先清空所有包
         SelectionContext.setControllerPackage(null);
@@ -156,7 +175,8 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
         }
         if (myDaoCheckBox.isSelected()) {
             SelectionContext.setDaoPackage(myDaoField.getText());
-            if (0 == myFrameComboBox.getSelectedIndex()) {
+            // Mybatis需要生成Mapper文件
+            if (MYBATIS == selectedIndex || MYBATIS_PLUS == selectedIndex) {
                 SelectionContext.setMapperDir(((TextFieldWithBrowseButton) myMapperField).getText());
             }
         }
@@ -167,12 +187,13 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
     }
 
     private void switchFrame() {
-        if (0 == myFrameComboBox.getSelectedIndex()) {
-            myMapperLabel.setVisible(true);
-            myMapperField.setVisible(true);
-        } else {
+        // 当选中JPA时, 不需要显示Mapper的框
+        if (JPA == myFrameComboBox.getSelectedIndex()) {
             myMapperLabel.setVisible(false);
             myMapperField.setVisible(false);
+        } else {
+            myMapperLabel.setVisible(true);
+            myMapperField.setVisible(true);
         }
     }
 

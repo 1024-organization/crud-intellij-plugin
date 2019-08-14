@@ -85,7 +85,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <text value=""/>
+            </properties>
           </component>
           <component id="35a15" class="javax.swing.JLabel">
             <constraints>
@@ -102,6 +104,7 @@
             </constraints>
             <properties>
               <model>
+                <item value="MyBatis Plus"/>
                 <item value="MyBatis"/>
                 <item value="JPA"/>
               </model>
