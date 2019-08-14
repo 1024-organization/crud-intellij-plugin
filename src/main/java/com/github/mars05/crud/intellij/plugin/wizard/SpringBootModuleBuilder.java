@@ -115,6 +115,12 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         selection.setServicePackage(selection.getPackage() + ".service");
         selection.setControllerPackage(selection.getPackage() + ".controller");
 
+        // 生成Mybatis-Plus config
+        if (selection.getOrmType() == MYBATIS_PLUS) {
+
+            // TODO: 2019-08-14 单选框生成分页插件,性能分析插件等...
+        }
+
         // 生成代码核心
         PsiFileUtils.createCrud(project, selection, getContentEntryPath());
         //解决依赖

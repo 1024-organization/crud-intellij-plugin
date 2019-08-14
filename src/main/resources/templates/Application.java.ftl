@@ -10,7 +10,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-<#if ormType==0>
+<#if ormType==0 || ormType==1>
 @MapperScan("${package}.dao")
 </#if>
 @EnableTransactionManagement
