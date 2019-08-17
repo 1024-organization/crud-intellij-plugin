@@ -230,12 +230,12 @@ public class PsiFileUtils {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
-        strategy.setSuperControllerClass("cn.ideamake.template.web.controller.AbstractController");
+//        strategy.setSuperControllerClass("cn.ideamake.template.web.controller.AbstractController");
         strategy.setInclude(getTableNameList(tables));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setRestControllerStyle(true);
         //表前缀
-        strategy.setTablePrefix("im_");
+        strategy.setTablePrefix(SelectionContext.getTablePrefix());
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
