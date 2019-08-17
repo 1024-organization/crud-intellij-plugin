@@ -120,6 +120,17 @@ public class PsiFileUtils {
     }
 
     /**
+     * 生成 mybatis-plus 配置文件
+     */
+    public static void createMybatisPlusConfiguration(Project project, VirtualFile root, Selection selection) throws Exception {
+        VirtualFile virtualFile = root.createChildData(project, "MybatisPlusConfig.java");
+        StringWriter sw = new StringWriter();
+        Template template = freemarker.getTemplate("MybatisPlusConfig.java.ftl");
+        template.process(selection, sw);
+        virtualFile.setBinaryContent(sw.toString().getBytes(CrudUtils.DEFAULT_CHARSET));
+    }
+
+    /**
      * 生成基础代码
      * @param base 抽象顶级父类
      * @param arrIndex 模板对应索引位置
@@ -163,7 +174,7 @@ public class PsiFileUtils {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         gc.setOutputDir(moduleRootPath + "/src/main/java");
-        gc.setAuthor("ideamake");
+        gc.setAuthor(SelectionContext.getAuthor());
         gc.setServiceName("%sService");gc.setServiceImplName("%sServiceImpl");
         gc.setOpen(false);
         gc.setFileOverride(true);

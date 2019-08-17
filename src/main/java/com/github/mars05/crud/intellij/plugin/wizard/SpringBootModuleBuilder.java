@@ -106,6 +106,10 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         PsiFileUtils.createApplicationJava(project, createPackageDir(selection.getPackage()), selection);
         //application.yml配置生成
         PsiFileUtils.createApplicationYml(project, createResourceDir("/"), selection);
+        // 生成Mybatis-Plus config
+        if (selection.getOrmType() == MYBATIS_PLUS) {
+            PsiFileUtils.createMybatisPlusConfiguration(project, createPackageDir(selection.getPackage() + ".config"), selection);
+        }
 
         selection.setModelPackage(selection.getPackage() + ".model");
         selection.setDaoPackage(selection.getPackage() + ".dao");
@@ -114,12 +118,6 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         }
         selection.setServicePackage(selection.getPackage() + ".service");
         selection.setControllerPackage(selection.getPackage() + ".controller");
-
-        // 生成Mybatis-Plus config
-        if (selection.getOrmType() == MYBATIS_PLUS) {
-
-            // TODO: 2019-08-14 单选框生成分页插件,性能分析插件等...
-        }
 
         // 生成代码核心
         PsiFileUtils.createCrud(project, selection, getContentEntryPath());

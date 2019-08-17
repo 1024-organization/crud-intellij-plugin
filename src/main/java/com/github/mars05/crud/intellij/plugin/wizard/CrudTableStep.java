@@ -33,6 +33,8 @@ public class CrudTableStep extends ModuleWizardStep {
     @Override
     public void updateDataModel() {
 
+        // 统一表前缀
+        SelectionContext.setTablePrefix(myCrudTableView.getTablePrefix());
     }
 
     public void reloadListElements(List<ListElement> listElements) {

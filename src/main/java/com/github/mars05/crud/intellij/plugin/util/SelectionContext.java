@@ -26,6 +26,11 @@ public class SelectionContext {
     private static String servicePackage;
     private static String controllerPackage;
     private static String mapperDir;
+    private static String author;
+    private static boolean paginationSelected;
+    private static boolean performanceSelected;
+    private static boolean optimisticLockerSelected;
+    private static String tablePrefix;
 
     public static Conn getConn() {
         return conn;
@@ -107,6 +112,9 @@ public class SelectionContext {
         mapperDir = null;
         modelPackage = null;
         ormType = 0;
+        paginationSelected = false;
+        performanceSelected = false;
+        optimisticLockerSelected = false;
     }
 
     public static Selection copyToSelection() {
@@ -125,6 +133,11 @@ public class SelectionContext {
         selection.setMapperDir(mapperDir);
         selection.setModelPackage(modelPackage);
         selection.setOrmType(ormType);
+        selection.setPaginationSelected(paginationSelected);
+        selection.setPerformanceSelected(performanceSelected);
+        selection.setOptimisticLockerSelected(optimisticLockerSelected);
+        selection.setAuthor(author);
+        selection.setTablePrefix(tablePrefix);
         return selection;
     }
 
@@ -174,5 +187,45 @@ public class SelectionContext {
 
     public static String getModelPackage() {
         return modelPackage;
+    }
+
+    public static boolean isPaginationSelected() {
+        return paginationSelected;
+    }
+
+    public static void setPaginationSelected(boolean paginationSelected) {
+        SelectionContext.paginationSelected = paginationSelected;
+    }
+
+    public static boolean isPerformanceSelected() {
+        return performanceSelected;
+    }
+
+    public static void setPerformanceSelected(boolean performanceSelected) {
+        SelectionContext.performanceSelected = performanceSelected;
+    }
+
+    public static boolean isOptimisticLockerSelected() {
+        return optimisticLockerSelected;
+    }
+
+    public static void setOptimisticLockerSelected(boolean optimisticLockerSelected) {
+        SelectionContext.optimisticLockerSelected = optimisticLockerSelected;
+    }
+
+    public static String getAuthor() {
+        return author;
+    }
+
+    public static void setAuthor(String author) {
+        SelectionContext.author = author;
+    }
+
+    public static String getTablePrefix() {
+        return tablePrefix;
+    }
+
+    public static void setTablePrefix(String tablePrefix) {
+        SelectionContext.tablePrefix = tablePrefix;
     }
 }

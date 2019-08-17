@@ -9,7 +9,7 @@ import ${superMapperClassPackage};
  * </p>
  *
  * @author ${author}
- * @since ${date}
+ * @date ${date}
  */
 <#if kotlin>
 interface ${table.mapperName} : ${superMapperClass}<${entity}>

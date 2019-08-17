@@ -11,8 +11,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * Swagger配置
- */
+* @author ${author}
+* @date ${.now}
+* @description Swagger配置文件
+*/
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
@@ -21,7 +23,7 @@ public class Swagger2Config {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("${package+'.controller'}"))
+                .apis(RequestHandlerSelectors.basePackage("${package+'.web.controller'}"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -31,6 +33,7 @@ public class Swagger2Config {
                 .title("${artifactId} API文档")
                 .description("${artifactId} API文档")
                 .version("${version}")
+                .contact(new Contact(${author}, "", ""))
                 .build();
     }
 }

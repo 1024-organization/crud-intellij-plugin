@@ -22,7 +22,7 @@ mybatis:
 <#if ormType==0>
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml
-  typeAliasesPackage: cn.ideamake.template.pojo.entity
+  typeAliasesPackage: ${package}
   global-config:
     db-config:
       id-type: UUID

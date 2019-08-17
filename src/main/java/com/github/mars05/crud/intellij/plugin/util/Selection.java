@@ -19,6 +19,12 @@ public class Selection {
     private String version;
     private String pkg;
 
+    private boolean paginationSelected;
+    private boolean performanceSelected;
+    private boolean optimisticLockerSelected;
+    private String author;
+    private String tablePrefix;
+
     private String daoPackage;
     private String servicePackage;
     private String controllerPackage;
@@ -135,5 +141,45 @@ public class Selection {
 
     public int getOrmType() {
         return ormType;
+    }
+
+    public boolean isPaginationSelected() {
+        return paginationSelected;
+    }
+
+    public void setPaginationSelected(boolean paginationSelected) {
+        this.paginationSelected = paginationSelected;
+    }
+
+    public boolean isPerformanceSelected() {
+        return performanceSelected;
+    }
+
+    public void setPerformanceSelected(boolean performanceSelected) {
+        this.performanceSelected = performanceSelected;
+    }
+
+    public boolean isOptimisticLockerSelected() {
+        return optimisticLockerSelected;
+    }
+
+    public void setOptimisticLockerSelected(boolean optimisticLockerSelected) {
+        this.optimisticLockerSelected = optimisticLockerSelected;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getTablePrefix() {
+        return tablePrefix;
+    }
+
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
     }
 }
