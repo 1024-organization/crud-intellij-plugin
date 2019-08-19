@@ -47,7 +47,7 @@ public class MybatisPlusConfig {
     }
 </#if>
 
-<#if performanceSelected>
+<#if optimisticLockerSelected>
     /**
     * 乐观锁插件
     * todo 乐观锁插件已开启, 请按照官方文档配置

@@ -2,6 +2,8 @@ package com.github.mars05.crud.intellij.plugin.ui;
 
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBScrollPane;
+import com.twelvemonkeys.util.CollectionUtil;
+import org.springframework.util.CollectionUtils;
 
 import javax.swing.*;
 import java.util.List;
@@ -18,6 +20,14 @@ public class CrudTableView implements CrudView {
     private JScrollPane myScrollPane;
     private JTextField tablePrefix;
 
+    public CrudTableView() {
+        myTableList.addListSelectionListener((anAction) -> {
+            List<ListElement> selectedValuesList = myTableList.getSelectedValuesList();
+            String prefix = getPrefix(selectedValuesList);
+            tablePrefix.setText(prefix);
+        });
+    }
+
     @Override
     public CrudList getCrudList() {
         CrudList crudList = (CrudList) this.myTableList;
@@ -26,9 +36,13 @@ public class CrudTableView implements CrudView {
     }
 
     /**
-     * todo 自动判断表前缀
+     * 自动推测表前缀
      */
     private static String getPrefix(List<ListElement> selectedValuesList) {
+        // 一个都没选中的时候, 不做推测 || 只选中一个的时候,不做推测
+        if (CollectionUtils.isEmpty(selectedValuesList) || selectedValuesList.size() == 1) {
+            return "";
+        }
         List<String> nameList = selectedValuesList.stream().map(ListElement::getName).collect(Collectors.toList());
         String prefix = "";
         String firstTableName = nameList.get(0);

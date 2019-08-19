@@ -34,7 +34,7 @@ public class Swagger2Config {
                 .title("${artifactId} API文档")
                 .description("${artifactId} API文档")
                 .version("${version}")
-                .contact(new Contact(${author}, "", ""))
+                .contact(new Contact("${author}", "", ""))
                 .build();
     }
 }
