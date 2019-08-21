@@ -44,7 +44,7 @@ public class NewFileAction extends AnAction {
         if (StringUtils.isNotBlank(basePackage)) {
             basePackage += ".";
         }
-        SelectionContext.setControllerPackage(basePackage + "controller");
+        SelectionContext.setControllerPackage(basePackage + "web.controller");
         SelectionContext.setServicePackage(basePackage + "service");
         SelectionContext.setDaoPackage(basePackage + "dao");
         SelectionContext.setModelPackage(basePackage + "model");

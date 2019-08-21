@@ -40,6 +40,7 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
     private JButton myModelChoose;
     private JPanel myPackagePanel;
     private JLabel myMapperLabel;
+    private JTextField authorField;
 
     private Project myProject;
     private Module myModule;
@@ -183,6 +184,7 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
         if (myModelCheckBox.isSelected()) {
             SelectionContext.setModelPackage(myModelField.getText());
         }
+        SelectionContext.setAuthor(authorField.getText());
         return super.validate();
     }
 

@@ -110,6 +110,8 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         if (selection.getOrmType() == MYBATIS_PLUS) {
             PsiFileUtils.createMybatisPlusConfiguration(project, createPackageDir(selection.getPackage() + ".config"), selection);
         }
+        // 生成.gitignore文件
+        PsiFileUtils.createFileByFileNameAndTemplateName(project, createAndGetContentEntry(), selection, ".gitignore", "gitignore.ftl");
 
         selection.setModelPackage(selection.getPackage() + ".model");
         selection.setDaoPackage(selection.getPackage() + ".dao");

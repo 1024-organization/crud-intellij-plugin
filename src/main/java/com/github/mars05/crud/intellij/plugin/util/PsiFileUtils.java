@@ -85,6 +85,19 @@ public class PsiFileUtils {
 
     private static final String[] NAME_SUFFIX_ARR = {".java", ".java", "Impl.java", ".java", ".java", "Mapper.xml"};
 
+    /**
+     * 创建文件
+     * @param fileName 创建的文件名称
+     * @param templateName 模板名称
+     */
+    public static void createFileByFileNameAndTemplateName(Project project, VirtualFile root, Selection selection, String fileName, String templateName) throws Exception {
+        VirtualFile virtualFile = root.createChildData(project, fileName);
+        StringWriter sw = new StringWriter();
+        Template template = freemarker.getTemplate(templateName);
+        template.process(selection, sw);
+        virtualFile.setBinaryContent(sw.toString().getBytes(CrudUtils.DEFAULT_CHARSET));
+    }
+
     public static void createPomXml(Project project, VirtualFile root, Selection selection) throws Exception {
         VirtualFile virtualFile = root.createChildData(project, "pom.xml");
         StringWriter sw = new StringWriter();
@@ -323,4 +336,5 @@ public class PsiFileUtils {
             PsiFileUtils.createMvc(project, controllerPackageDir, controller,  0);
         }
     }
+
 }

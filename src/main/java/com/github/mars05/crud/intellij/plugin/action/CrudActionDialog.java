@@ -3,6 +3,7 @@ package com.github.mars05.crud.intellij.plugin.action;
 import com.github.mars05.crud.intellij.plugin.ui.CrudConnView;
 import com.github.mars05.crud.intellij.plugin.ui.CrudDbView;
 import com.github.mars05.crud.intellij.plugin.ui.CrudTableView;
+import com.github.mars05.crud.intellij.plugin.util.SelectionContext;
 import com.github.mars05.crud.intellij.plugin.wizard.CrudConnStep;
 import com.github.mars05.crud.intellij.plugin.wizard.CrudDbStep;
 import com.github.mars05.crud.intellij.plugin.wizard.CrudTableStep;
@@ -21,9 +22,13 @@ public class CrudActionDialog extends AbstractWizard<ModuleWizardStep> {
 
     private Project myProject;
     private Module myModule;
+    private CrudTableView crudTableView;
 
     public CrudActionDialog(Project project, Module module) {
+
+
         super("Create New Crud", project);
+        crudTableView = new CrudTableView();
         myProject = project;
         myModule = module;
         ModuleWizardStep[] wizardSteps = createWizardSteps();
@@ -50,6 +55,7 @@ public class CrudActionDialog extends AbstractWizard<ModuleWizardStep> {
         ModuleWizardStep step = getCurrentStepObject();
         try {
             if (step.validate()) {
+                SelectionContext.setTablePrefix(crudTableView.getTablePrefix());
                 super.doNextAction();
             }
         } catch (ConfigurationException e) {
@@ -58,7 +64,7 @@ public class CrudActionDialog extends AbstractWizard<ModuleWizardStep> {
     }
 
     public ModuleWizardStep[] createWizardSteps() {
-        CrudTableStep tableStep = new CrudTableStep(new CrudTableView());
+        CrudTableStep tableStep = new CrudTableStep(crudTableView);
         CrudDbStep dbStep = new CrudDbStep(new CrudDbView(), tableStep);
         CrudConnStep connStep = new CrudConnStep(new CrudConnView(), dbStep);
         return new ModuleWizardStep[]{
