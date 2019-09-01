@@ -46,6 +46,10 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
 <div>
+  <p>1.0.2</p> 
+  <ul> 
+    <li>support Mybatis-Plus</li> 
+  </ul>
   <p>1.0.1</p> 
   <ul> 
     <li>Changed some plugin information</li> 
