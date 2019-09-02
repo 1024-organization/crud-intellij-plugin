@@ -34,6 +34,7 @@ public class SelectionContext {
     private static boolean lombokSelected;
     private static String tablePrefix;
     private static boolean fillFieldSelected;
+    private static boolean dockerfileSelected;
 
     public static Conn getConn() {
         return conn;
@@ -144,6 +145,7 @@ public class SelectionContext {
         selection.setAuthor(author);
         selection.setTablePrefix(tablePrefix);
         selection.setFillFieldSelected(fillFieldSelected);
+        selection.setDockerfileSelected(dockerfileSelected);
         return selection;
     }
 
@@ -257,5 +259,13 @@ public class SelectionContext {
 
     public static boolean getFillFieldSelected() {
         return fillFieldSelected;
+    }
+
+    public static void setDockerfileSelected(boolean dockerfileSelected) {
+        SelectionContext.dockerfileSelected = dockerfileSelected;
+    }
+
+    public static boolean getDockerfileSelected() {
+        return dockerfileSelected;
     }
 }

@@ -116,6 +116,10 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         }
         // 生成.gitignore文件
         PsiFileUtils.createFileByFileNameAndTemplateName(project, createAndGetContentEntry(), selection, ".gitignore", "gitignore.ftl");
+        // 生成dockerfie
+        if (selection.getDockerfileSelected()) {
+            PsiFileUtils.createFileByFileNameAndTemplateName(project, createOtherPackageDir("docker"), selection, "Dockerfile", "Dockerfile.ftl");
+        }
 
         selection.setModelPackage(selection.getPackage() + ".model");
         selection.setDaoPackage(selection.getPackage() + ".dao");
@@ -149,6 +153,13 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
 
     private VirtualFile createPackageDir(String packageName) {
         packageName = "src/main/java/" + packageName;
+        String path = FileUtil.toSystemIndependentName(getContentEntryPath() + "/" + StringUtil.replace(packageName, ".", "/"));
+        new File(path).mkdirs();
+        return LocalFileSystem.getInstance().refreshAndFindFileByPath(path);
+    }
+
+    private VirtualFile createOtherPackageDir(String packageName) {
+        packageName = "src/main/" + packageName;
         String path = FileUtil.toSystemIndependentName(getContentEntryPath() + "/" + StringUtil.replace(packageName, ".", "/"));
         new File(path).mkdirs();
         return LocalFileSystem.getInstance().refreshAndFindFileByPath(path);

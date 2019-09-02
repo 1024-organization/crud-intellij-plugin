@@ -31,6 +31,7 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
     private JLabel otherSetting;
     private JCheckBox activeRecordModel;
     private JCheckBox fillFieldCheckBox;
+    private JCheckBox dockerfileCheckBox;
 
 
     @Override
@@ -98,6 +99,7 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
         lombokCheckBox.setVisible(visible);
         activeRecordModel.setVisible(visible);
         fillFieldCheckBox.setVisible(visible);
+        dockerfileCheckBox.setVisible(visible);
     }
 
     @Override
@@ -129,6 +131,7 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
             SelectionContext.setActiveRecordModelSelected(activeRecordModel.isSelected());
             SelectionContext.setFillFieldSelected(fillFieldCheckBox.isSelected());
         }
+        SelectionContext.setDockerfileSelected(dockerfileCheckBox.isSelected());
         return super.validate();
     }
 

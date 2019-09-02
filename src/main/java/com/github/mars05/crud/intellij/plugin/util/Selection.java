@@ -33,6 +33,7 @@ public class Selection {
     private String controllerPackage;
     private String mapperDir;
     private String modelPackage;
+    private boolean dockerfileSelected;
 
     public String getProjectType() {
         return projectType;
@@ -208,5 +209,13 @@ public class Selection {
 
     public void setFillFieldSelected(boolean fillFieldSelected) {
         this.fillFieldSelected = fillFieldSelected;
+    }
+
+    public void setDockerfileSelected(boolean dockerfileSelected) {
+        this.dockerfileSelected = dockerfileSelected;
+    }
+
+    public boolean getDockerfileSelected() {
+        return dockerfileSelected;
     }
 }

@@ -95,6 +95,43 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <#if dockerfileSelected>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.0</version>
+                <configuration>
+                    <imageName>${r'${artifactId}'}:${r'${project.version}'}</imageName>
+                    <dockerDirectory>${r'${project.basedir}'}/src/main/docker</dockerDirectory>
+                    <resources>
+                        <resoulsrce>
+                            <targetPath>/</targetPath>
+                            <directory>${r'${project.build.directory}'}</directory>
+                            <include>${r'${project.build.finalName}'}.jar</include>
+                        </resoulsrce>
+                    </resources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>push-image</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <imageName>${r'${artifactId}'}:${r'${project.version}'}</imageName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            </#if>
         </plugins>
     </build>
 
