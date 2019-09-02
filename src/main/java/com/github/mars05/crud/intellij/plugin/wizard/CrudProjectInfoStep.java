@@ -95,11 +95,9 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
         performanceCheckBox.setVisible(visible);
         optimisticLockerCheckBox.setVisible(visible);
         installPlugin.setVisible(visible);
-        otherSetting.setVisible(visible);
         lombokCheckBox.setVisible(visible);
         activeRecordModel.setVisible(visible);
         fillFieldCheckBox.setVisible(visible);
-        dockerfileCheckBox.setVisible(visible);
     }
 
     @Override
