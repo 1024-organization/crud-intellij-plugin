@@ -33,7 +33,9 @@ public class NewFileAction extends AnAction {
         }
         Module module = ModuleUtil.findModuleForFile(virtualFile, project);
 
+        // 项目绝对路径
         String moduleRootPath = ModuleRootManager.getInstance(module).getContentRoots()[0].getPath();
+        // 选中事件发生时的目录
         String actionDir = virtualFile.getPath();
 
         String str = StringUtils.substringAfter(actionDir, moduleRootPath + "/src/main/java/");

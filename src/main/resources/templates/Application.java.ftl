@@ -8,7 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
+/**
+* 应用启动类
+* @author ${author}
+*/
 @SpringBootApplication
 <#if ormType==0 || ormType==1>
 @MapperScan("${package}.dao")

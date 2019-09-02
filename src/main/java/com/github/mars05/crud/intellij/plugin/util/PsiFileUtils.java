@@ -189,6 +189,7 @@ public class PsiFileUtils {
         gc.setOutputDir(moduleRootPath + "/src/main/java");
         gc.setAuthor(SelectionContext.getAuthor());
         gc.setServiceName("%sService");gc.setServiceImplName("%sServiceImpl");
+        gc.setActiveRecord(SelectionContext.getActiveRecordModelSelected());
         gc.setOpen(false);
         gc.setFileOverride(true);
         mpg.setGlobalConfig(gc);
@@ -242,16 +243,29 @@ public class PsiFileUtils {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setEntityLombokModel(true);
+        strategy.setEntityLombokModel(SelectionContext.getLombokSelected());
 //        strategy.setSuperControllerClass("cn.ideamake.template.web.controller.AbstractController");
         strategy.setInclude(getTableNameList(tables));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setRestControllerStyle(true);
         //表前缀
         strategy.setTablePrefix(SelectionContext.getTablePrefix());
+        // 设置表填充字段
+        if (SelectionContext.getFillFieldSelected()) {
+            strategy.setTableFillList(configTableFillList());
+        }
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
+    }
+
+    private static List<TableFill> configTableFillList() {
+        ArrayList<TableFill> tableFillList = new ArrayList<>();
+        TableFill createField = new TableFill("created_at", FieldFill.INSERT);
+        TableFill modifiedField = new TableFill("updated_at", FieldFill.INSERT_UPDATE);
+        tableFillList.add(createField);
+        tableFillList.add(modifiedField);
+        return tableFillList;
     }
 
     private static String[] getTableNameList(List<Table> tables) {

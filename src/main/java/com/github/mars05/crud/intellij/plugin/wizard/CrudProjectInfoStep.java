@@ -4,6 +4,7 @@ import com.github.mars05.crud.intellij.plugin.CrudBundle;
 import com.github.mars05.crud.intellij.plugin.util.SelectionContext;
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.text.StringUtil;
 import org.apache.commons.lang.StringUtils;
 
@@ -26,6 +27,10 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
     private JCheckBox optimisticLockerCheckBox;
     private JLabel installPlugin;
     private JTextField author;
+    private JCheckBox lombokCheckBox;
+    private JLabel otherSetting;
+    private JCheckBox activeRecordModel;
+    private JCheckBox fillFieldCheckBox;
 
 
     @Override
@@ -40,18 +45,32 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
     }
 
     public CrudProjectInfoStep() {
+
         // 当选中MP的时候,展示MP的插件选项
-        myFrameComboBox.addActionListener((actionEvent) -> {
-            if (MYBATIS_PLUS == myFrameComboBox.getSelectedIndex()) {
-                switchMybatisPlusComponentVisible(true);
-            } else {
-                switchMybatisPlusComponentVisible(false);
-            }
-        });
+        if (null != myFrameComboBox) {
+            myFrameComboBox.addActionListener((actionEvent) -> {
+                if (MYBATIS_PLUS == myFrameComboBox.getSelectedIndex()) {
+                    switchMybatisPlusComponentVisible(true);
+                } else {
+                    switchMybatisPlusComponentVisible(false);
+                }
+            });
+        }
 
         // 当groupId与ArtifactId失去焦点时判断是否有值, 拼接package
         myGroupIdField.addCaretListener((actionEvent) -> fillPackageValue());
         myArtifactIdField.addCaretListener((actionEvent) -> fillPackageValue());
+
+        // 当选中自动填充插件时, 提示
+        fillFieldCheckBox.addActionListener((actionEvent) -> {
+            if (fillFieldCheckBox.isSelected()) {
+                int yesNoDialog = Messages.showYesNoDialog("确认每张表都含有created_at与updated_at字段, 插件不做检查", "提示", Messages.getWarningIcon());
+                // 如果点击了否, 将选择状态设置为 不勾选
+                if (yesNoDialog == 1) {
+                    fillFieldCheckBox.setSelected(false);
+                }
+            }
+        });
     }
 
     /**
@@ -75,6 +94,10 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
         performanceCheckBox.setVisible(visible);
         optimisticLockerCheckBox.setVisible(visible);
         installPlugin.setVisible(visible);
+        otherSetting.setVisible(visible);
+        lombokCheckBox.setVisible(visible);
+        activeRecordModel.setVisible(visible);
+        fillFieldCheckBox.setVisible(visible);
     }
 
     @Override
@@ -102,6 +125,9 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
             SelectionContext.setPaginationSelected(paginationCheckBox.isSelected());
             SelectionContext.setPerformanceSelected(performanceCheckBox.isSelected());
             SelectionContext.setOptimisticLockerSelected(optimisticLockerCheckBox.isSelected());
+            SelectionContext.setLombokSelected(lombokCheckBox.isSelected());
+            SelectionContext.setActiveRecordModelSelected(activeRecordModel.isSelected());
+            SelectionContext.setFillFieldSelected(fillFieldCheckBox.isSelected());
         }
         return super.validate();
     }

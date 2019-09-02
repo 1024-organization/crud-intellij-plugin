@@ -3,6 +3,7 @@ package com.github.mars05.crud.intellij.plugin.ui;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBScrollPane;
 import com.twelvemonkeys.util.CollectionUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import javax.swing.*;
@@ -39,9 +40,14 @@ public class CrudTableView implements CrudView {
      * 自动推测表前缀
      */
     private static String getPrefix(List<ListElement> selectedValuesList) {
-        // 一个都没选中的时候, 不做推测 || 只选中一个的时候,不做推测
-        if (CollectionUtils.isEmpty(selectedValuesList) || selectedValuesList.size() == 1) {
+        // 一个都没选中的时候, 不做推测
+        if (CollectionUtils.isEmpty(selectedValuesList)) {
             return "";
+        }
+        // 只选中一个的时候, 从0到第一个下划线位置
+        if (selectedValuesList.size() == 1) {
+            ListElement tableName = selectedValuesList.get(0);
+            return StringUtils.substringBefore(tableName.getName(), "_") + "_";
         }
         List<String> nameList = selectedValuesList.stream().map(ListElement::getName).collect(Collectors.toList());
         String prefix = "";

@@ -22,6 +22,9 @@ public class Selection {
     private boolean paginationSelected;
     private boolean performanceSelected;
     private boolean optimisticLockerSelected;
+    private boolean activeRecordModelSelected;
+    private boolean fillFieldSelected;
+    private boolean lombokSelected;
     private String author;
     private String tablePrefix;
 
@@ -181,5 +184,29 @@ public class Selection {
 
     public void setTablePrefix(String tablePrefix) {
         this.tablePrefix = tablePrefix;
+    }
+
+    public boolean isLombokSelected() {
+        return lombokSelected;
+    }
+
+    public void setLombokSelected(boolean lombokSelected) {
+        this.lombokSelected = lombokSelected;
+    }
+
+    public boolean isActiveRecordModelSelected() {
+        return activeRecordModelSelected;
+    }
+
+    public void setActiveRecordModelSelected(boolean activeRecordModelSelected) {
+        this.activeRecordModelSelected = activeRecordModelSelected;
+    }
+
+    public boolean isFillFieldSelected() {
+        return fillFieldSelected;
+    }
+
+    public void setFillFieldSelected(boolean fillFieldSelected) {
+        this.fillFieldSelected = fillFieldSelected;
     }
 }

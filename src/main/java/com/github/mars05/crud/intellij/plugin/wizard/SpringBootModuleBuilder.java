@@ -109,6 +109,10 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         // 生成Mybatis-Plus config
         if (selection.getOrmType() == MYBATIS_PLUS) {
             PsiFileUtils.createMybatisPlusConfiguration(project, createPackageDir(selection.getPackage() + ".config"), selection);
+            // 设置表自动填充字段
+            if (selection.isFillFieldSelected()) {
+                PsiFileUtils.createFileByFileNameAndTemplateName(project, createPackageDir(selection.getPackage() + ".config"), selection, "MetaObjectHandlerConfig.java", "MetaObjectHandlerConfig.java.ftl");
+            }
         }
         // 生成.gitignore文件
         PsiFileUtils.createFileByFileNameAndTemplateName(project, createAndGetContentEntry(), selection, ".gitignore", "gitignore.ftl");

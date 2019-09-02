@@ -30,7 +30,10 @@ public class SelectionContext {
     private static boolean paginationSelected;
     private static boolean performanceSelected;
     private static boolean optimisticLockerSelected;
+    private static boolean activeRecordModelSelected;
+    private static boolean lombokSelected;
     private static String tablePrefix;
+    private static boolean fillFieldSelected;
 
     public static Conn getConn() {
         return conn;
@@ -136,8 +139,11 @@ public class SelectionContext {
         selection.setPaginationSelected(paginationSelected);
         selection.setPerformanceSelected(performanceSelected);
         selection.setOptimisticLockerSelected(optimisticLockerSelected);
+        selection.setActiveRecordModelSelected(activeRecordModelSelected);
+        selection.setLombokSelected(lombokSelected);
         selection.setAuthor(author);
         selection.setTablePrefix(tablePrefix);
+        selection.setFillFieldSelected(fillFieldSelected);
         return selection;
     }
 
@@ -227,5 +233,29 @@ public class SelectionContext {
 
     public static void setTablePrefix(String tablePrefix) {
         SelectionContext.tablePrefix = tablePrefix;
+    }
+
+    public static void setLombokSelected(boolean lombokSelected) {
+        SelectionContext.lombokSelected = lombokSelected;
+    }
+
+    public static boolean getLombokSelected() {
+        return lombokSelected;
+    }
+
+    public static void setActiveRecordModelSelected(boolean activeRecordModelSelected) {
+        SelectionContext.activeRecordModelSelected = activeRecordModelSelected;
+    }
+
+    public static boolean getActiveRecordModelSelected() {
+        return activeRecordModelSelected;
+    }
+
+    public static void setFillFieldSelected(boolean fillFieldSelected) {
+        SelectionContext.fillFieldSelected = fillFieldSelected;
+    }
+
+    public static boolean getFillFieldSelected() {
+        return fillFieldSelected;
     }
 }
