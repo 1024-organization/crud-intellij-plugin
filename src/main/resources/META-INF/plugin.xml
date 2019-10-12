@@ -1,20 +1,21 @@
 <idea-plugin>
     <id>com.github.mars05.crud-plugin</id>
-    <name>Crud</name>
-    <vendor url="https://github.com/mars05/crud-intellij-plugin" email="xiaoyucoder@163.com">mars05</vendor>
+    <name>思为代码生成工具</name>
+    <vendor url="https://github.com/imyzt/crud-intellij-plugin" email="zhentao@ideamake.cn">mars05</vendor>
     <category>Code Tools</category>
     <description><![CDATA[
 <div>
-    <h1> Crud Plugin </h1>
+    <h1> 思为代码生成工具 </h1>
     <div>
-        <p> A plugin for create, delete, update, and retrieve can help you quickly generate relevant code based on the
-            database table structure.</p>
-        <p> There are two ways to use: </p>
+        <p>
+            IDEA插件, 可以用于快速生成Mybatis-Plus,Mybatis,JPA的DAO,Service,Controller代码
+        </p>
+        <p> 支持以下方式生成代码: </p>
         <ul>
-            <li> Generate project from Crud Plugin</li>
-            <li> Project right click to generate code</li>
+            <li> 通过该插件创建项目 </li>
+            <li> 右击项目选择生成某张表的CRUD代码 </li>
         </ul>
-        <p> For more information please visit: <a href="https://github.com/mars05/crud-intellij-plugin">GitHub</a></p>
+        <p> 插件是我Fork的Github开源项目, 对它做了一些本地化操作: <a href="https://github.com/mars05/crud-intellij-plugin">GitHub</a></p>
     </div>
 </div>
     ]]></description>

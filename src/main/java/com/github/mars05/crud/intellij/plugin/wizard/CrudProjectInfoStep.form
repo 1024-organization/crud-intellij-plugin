@@ -31,7 +31,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="com.example"/>
+              <text value="cn.ideamake"/>
             </properties>
           </component>
           <component id="5f285" class="javax.swing.JLabel">
@@ -67,7 +67,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="0.0.1-SNAPSHOT"/>
+              <text value="0.0.1"/>
             </properties>
           </component>
           <component id="3fb2" class="javax.swing.JLabel">
@@ -85,7 +85,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="com.example.demo"/>
+              <text value="cn.ideamake.demo"/>
             </properties>
           </component>
           <component id="35a15" class="javax.swing.JLabel">
@@ -166,7 +166,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="imyzt"/>
+              <text value="ideamake"/>
             </properties>
           </component>
           <component id="6ddff" class="javax.swing.JLabel">
