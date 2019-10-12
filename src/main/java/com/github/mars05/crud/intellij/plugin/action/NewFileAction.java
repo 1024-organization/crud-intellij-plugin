@@ -15,10 +15,18 @@ import com.intellij.openapi.project.DumbAwareRunnable;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.velocity.texen.util.FileUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.idea.maven.project.MavenProjectsManager;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * @author xiaoyu
@@ -39,7 +47,7 @@ public class NewFileAction extends AnAction {
         String actionDir = virtualFile.getPath();
 
         String str = StringUtils.substringAfter(actionDir, moduleRootPath + "/src/main/java/");
-        String basePackage = StringUtils.replace(str, "/", ".");
+        String basePackage = getBasePackage(project, moduleRootPath);
         SelectionContext.clearAllSet();
 
         SelectionContext.setPackage(basePackage);
@@ -72,5 +80,23 @@ public class NewFileAction extends AnAction {
                 CrudUtils.doOptimize(project);
             }
         }.execute());
+    }
+
+    private String getBasePackage(Project project, String moduleRootPath)  {
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileInputStream(new File(moduleRootPath + File.separator + "plugin.properties")));
+
+            String groupId = properties.getProperty("groupId");
+            String artifactId = properties.getProperty("artifactId");
+
+            if (StringUtils.isNoneBlank(groupId, artifactId)) {
+                return groupId + "." + artifactId;
+            }
+            Messages.showWarningDialog(project, "plugin.ini未配置", "⚠️ 警告");
+            throw new RuntimeException("plugin.ini未配置");
+        } catch (IOException e) {
+            throw new RuntimeException("读取配置文件失败");
+        }
     }
 }
