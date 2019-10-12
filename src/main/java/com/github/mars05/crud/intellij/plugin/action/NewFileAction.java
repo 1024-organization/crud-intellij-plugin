@@ -93,10 +93,27 @@ public class NewFileAction extends AnAction {
             if (StringUtils.isNoneBlank(groupId, artifactId)) {
                 return groupId + "." + artifactId;
             }
-            Messages.showWarningDialog(project, "plugin.ini未配置", "⚠️ 警告");
+            Messages.showWarningDialog(project, "plugin.ini未配置", "警告");
             throw new RuntimeException("plugin.ini未配置");
         } catch (IOException e) {
-            throw new RuntimeException("读取配置文件失败");
+            int yesNo = Messages.showYesNoCancelDialog(project, "读取配置文件失败, 请配置插件", "警告", null);
+            if (yesNo != 1) {
+                // 创建一个URI实例
+                java.net.URI uri = java.net.URI.create("https://juejin.im/post/5da1853b5188251f8b550767");
+                // 获取当前系统桌面扩展
+                java.awt.Desktop dp = java.awt.Desktop.getDesktop();
+                // 判断系统桌面是否支持要执行的功能
+                if (dp.isSupported(java.awt.Desktop.Action.BROWSE)) {
+                    // 获取系统默认浏览器打开链接
+                    try {
+                        dp.browse(uri);
+                    } catch (IOException ex) {
+                        Messages.showWarningDialog(project, "系统不支持打开浏览器", "错误");
+                        throw new RuntimeException("系统不支持打开浏览器, 模板参考: https://juejin.im/post/5da1853b5188251f8b550767");
+                    }
+                }
+            }
         }
+        throw new RuntimeException("读取配置文件失败");
     }
 }
