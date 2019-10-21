@@ -100,8 +100,6 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         initMavenStructure();
         //pom.xml生成
         PsiFileUtils.createPomXml(project, createAndGetContentEntry(), selection);
-        //swagger生成
-        PsiFileUtils.createSwagger(project, createPackageDir(selection.getPackage() + ".config"), selection);
         //Application类生成
         PsiFileUtils.createApplicationJava(project, createPackageDir(selection.getPackage()), selection);
         //application.yml配置生成
