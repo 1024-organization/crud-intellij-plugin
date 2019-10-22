@@ -1,8 +1,11 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /api/
+
+
 spring:
   datasource:
-    url: jdbc:mysql://${conn.host}:${conn.port?c}/${db}?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
-    username: ${conn.username}
-    password: ${conn.password}
     hikari:
       minimum-idle: 5
       maximum-pool-size: 100
@@ -14,6 +17,12 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  profiles:
+    active: local
+  servlet:
+    multipart:
+      max-request-size: 10MB
+      max-file-size: 15MB
 
 <#if ormType==1>
 mybatis:
@@ -26,6 +35,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: UUID
+      field-strategy: not_empty
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false

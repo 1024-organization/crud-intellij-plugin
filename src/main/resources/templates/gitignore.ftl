@@ -8,6 +8,7 @@ mvnw
 mvnw.cmd
 .mvn/
 log/
+src/main/resources/application-local.yml
 
 ### STS ###
 .apt_generated

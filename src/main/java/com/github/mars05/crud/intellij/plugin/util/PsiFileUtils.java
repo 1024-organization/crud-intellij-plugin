@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import com.github.mars05.crud.intellij.plugin.model.*;
 import com.google.common.base.CaseFormat;
 import com.intellij.openapi.project.Project;
@@ -19,14 +18,15 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.github.mars05.crud.intellij.plugin.util.SelectionContext.*;
@@ -35,7 +35,17 @@ import static com.github.mars05.crud.intellij.plugin.util.SelectionContext.*;
  * @author xiaoyu
  */
 public class PsiFileUtils {
+
     private static FreemarkerConfiguration freemarker = new FreemarkerConfiguration("/templates");
+
+    private static final Map<String, String> YML_MAP = new HashMap<>(4);
+    static {
+        YML_MAP.put("application.yml", "application.yml.ftl");
+        YML_MAP.put("application-local.yml", "application-local.yml.ftl");
+        YML_MAP.put("application-dev.yml", "application-dev.yml.ftl");
+        YML_MAP.put("application-test.yml", "application-test.yml.ftl");
+        YML_MAP.put("application-prod.yml", "application-prod.yml.ftl");
+    }
 
     /**
      * 一维: 模板类型
@@ -125,11 +135,13 @@ public class PsiFileUtils {
     }
 
     public static void createApplicationYml(Project project, VirtualFile root, Selection selection) throws Exception {
-        VirtualFile virtualFile = root.createChildData(project, "application.yml");
-        StringWriter sw = new StringWriter();
-        Template template = freemarker.getTemplate("application.yml.ftl");
-        template.process(selection, sw);
-        virtualFile.setBinaryContent(sw.toString().getBytes(CrudUtils.DEFAULT_CHARSET));
+        for (Map.Entry<String, String> entry : YML_MAP.entrySet()) {
+            VirtualFile virtualFile = root.createChildData(project, entry.getKey());
+            StringWriter sw = new StringWriter();
+            Template template = freemarker.getTemplate(entry.getValue());
+            template.process(selection, sw);
+            virtualFile.setBinaryContent(sw.toString().getBytes(CrudUtils.DEFAULT_CHARSET));
+        }
     }
 
     /**
