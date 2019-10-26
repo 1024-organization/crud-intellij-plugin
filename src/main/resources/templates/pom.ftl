@@ -110,6 +110,13 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>${r'${swagger.version}'}</version>
         </dependency>
+
+        <!--aliyun elk sdk-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.1.0</version>
+        </dependency>
     </#if>
 
     </dependencies>
