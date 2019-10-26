@@ -104,6 +104,10 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         PsiFileUtils.createApplicationJava(project, createPackageDir(selection.getPackage()), selection);
         //application.yml配置生成
         PsiFileUtils.createApplicationYml(project, createResourceDir("/"), selection);
+        // 生成日志配置
+        PsiFileUtils.createFileByFileNameAndTemplateName(project, createResourceDir("/conf"), selection, "logback-dev.xml", "logback-dev.xml.ftl");
+        PsiFileUtils.createFileByFileNameAndTemplateName(project, createResourceDir("/conf"), selection, "logback-test.xml", "logback-test.xml.ftl");
+        PsiFileUtils.createFileByFileNameAndTemplateName(project, createResourceDir("/conf"), selection, "logback-prod.xml", "logback-prod.xml.ftl");
         // 生成Mybatis-Plus config
         if (selection.getOrmType() == MYBATIS_PLUS) {
             PsiFileUtils.createMybatisPlusConfiguration(project, createPackageDir(selection.getPackage() + ".config"), selection);
