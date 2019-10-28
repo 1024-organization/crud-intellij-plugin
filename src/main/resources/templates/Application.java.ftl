@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.context.annotation.ComponentScan;
 /**
 * 应用启动类
 * @author ${author}
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 <#if ormType==0 || ormType==1>
 @MapperScan("${package}.dao")
 </#if>
+@ComponentScan("cn.ideamake")
 @EnableTransactionManagement
 public class Application {
 
