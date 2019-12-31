@@ -10,7 +10,6 @@ import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.application.Result;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.DumbAwareRunnable;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
@@ -18,20 +17,27 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.texen.util.FileUtil;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.idea.maven.project.MavenProjectsManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Properties;
+
+import static com.intellij.openapi.module.ModuleUtilCore.findModuleForFile;
 
 /**
  * @author xiaoyu
  */
 public class NewFileAction extends AnAction {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewFileAction.class);
+
     @Override
     public void actionPerformed(AnActionEvent e) {
         Project project = e.getProject();
@@ -39,14 +45,11 @@ public class NewFileAction extends AnAction {
         if (!virtualFile.isDirectory()) {
             virtualFile = virtualFile.getParent();
         }
-        Module module = ModuleUtil.findModuleForFile(virtualFile, project);
+        Module module = findModuleForFile(virtualFile, project);
 
         // 项目绝对路径
         String moduleRootPath = ModuleRootManager.getInstance(module).getContentRoots()[0].getPath();
-        // 选中事件发生时的目录
-        String actionDir = virtualFile.getPath();
 
-        String str = StringUtils.substringAfter(actionDir, moduleRootPath + "/src/main/java/");
         String basePackage = getBasePackage(project, moduleRootPath);
         SelectionContext.clearAllSet();
 
@@ -57,7 +60,7 @@ public class NewFileAction extends AnAction {
         SelectionContext.setControllerPackage(basePackage + "web.controller");
         SelectionContext.setServicePackage(basePackage + "service");
         SelectionContext.setDaoPackage(basePackage + "dao");
-        SelectionContext.setModelPackage(basePackage + "model");
+        SelectionContext.setModelPackage(basePackage + "pojo.entity");
         SelectionContext.setMapperDir(moduleRootPath + "/src/main/resources/mapper");
 
         CrudActionDialog dialog = new CrudActionDialog(project, module);
@@ -83,37 +86,20 @@ public class NewFileAction extends AnAction {
     }
 
     private String getBasePackage(Project project, String moduleRootPath)  {
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream(new File(moduleRootPath + File.separator + "plugin.properties")));
 
-            String groupId = properties.getProperty("groupId");
-            String artifactId = properties.getProperty("artifactId");
+        try (FileInputStream fis = new FileInputStream(new File(moduleRootPath + File.separator + "pom.xml"))) {
 
-            if (StringUtils.isNoneBlank(groupId, artifactId)) {
-                return groupId + "." + artifactId;
-            }
-            Messages.showWarningDialog(project, "plugin.ini未配置", "警告");
-            throw new RuntimeException("plugin.ini未配置");
-        } catch (IOException e) {
-            int yesNo = Messages.showYesNoCancelDialog(project, "读取配置文件失败, 请配置插件", "警告", null);
-            if (yesNo != 1) {
-                // 创建一个URI实例
-                java.net.URI uri = java.net.URI.create("https://juejin.im/post/5da1853b5188251f8b550767");
-                // 获取当前系统桌面扩展
-                java.awt.Desktop dp = java.awt.Desktop.getDesktop();
-                // 判断系统桌面是否支持要执行的功能
-                if (dp.isSupported(java.awt.Desktop.Action.BROWSE)) {
-                    // 获取系统默认浏览器打开链接
-                    try {
-                        dp.browse(uri);
-                    } catch (IOException ex) {
-                        Messages.showWarningDialog(project, "系统不支持打开浏览器", "错误");
-                        throw new RuntimeException("系统不支持打开浏览器, 模板参考: https://juejin.im/post/5da1853b5188251f8b550767");
-                    }
-                }
-            }
+            MavenXpp3Reader reader = new MavenXpp3Reader();
+            Model model = reader.read(fis);
+            String artifactId = model.getArtifactId();
+            String groupId = model.getGroupId();
+
+            return groupId + "." + artifactId;
+        } catch (IOException | XmlPullParserException e) {
+            LOGGER.error("读取pom文件失败", e);
+            Messages.showWarningDialog(project, "pom.xml读取失败", "错误");
+            throw new IllegalArgumentException();
         }
-        throw new RuntimeException("读取配置文件失败");
     }
+
 }

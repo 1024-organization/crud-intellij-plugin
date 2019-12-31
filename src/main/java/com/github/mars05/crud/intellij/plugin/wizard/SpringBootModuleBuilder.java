@@ -120,8 +120,6 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         if (selection.getDockerfileSelected()) {
             PsiFileUtils.createFileByFileNameAndTemplateName(project, createOtherPackageDir("docker"), selection, "Dockerfile", "Dockerfile.ftl");
         }
-        // 写配置文件
-        PsiFileUtils.createFileByFileNameAndTemplateName(project, createAndGetContentEntry(), selection, "plugin.properties", "plugin.properties.ftl");
 
         selection.setModelPackage(selection.getPackage() + ".model");
         selection.setDaoPackage(selection.getPackage() + ".dao");
