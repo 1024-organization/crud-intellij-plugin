@@ -21,7 +21,7 @@ mybatis:
 </#if>
 <#if ormType==0>
 mybatis-plus:
-  mapper-locations: classpath:/mapper/*.xml
+  mapper-locations: classpath*:/mapper/*.xml
   typeAliasesPackage: ${package}.pojo.entity
   global-config:
     db-config:
