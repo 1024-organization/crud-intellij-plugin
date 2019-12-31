@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Profile;
 
 /**
  * @author ${author}
- * @date ${.now}
+ * @date ${.now?date?iso_utc}
  * @description MybatisPlus配置文件
  */
 @Configuration

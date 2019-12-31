@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jetbrains.intellij' version '0.4.8'
+    id 'org.jetbrains.intellij' version '0.4.15'
 }
 Properties properties = new Properties()
 properties.load project.rootProject.file('local.properties').newDataInputStream()
@@ -47,6 +47,11 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
 <div>
+  <p>1.1.1</p> 
+  <ul> 
+    <li>fixbug 右键生成无法自动生成lombok和自动填充修改时间的bug</li> 
+    <li>升级基础包版本</li> 
+  </ul>
   <p>1.1.0</p> 
   <ul> 
     <li>remove plugin.properties</li> 
