@@ -32,6 +32,7 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
     private JCheckBox activeRecordModel;
     private JCheckBox fillFieldCheckBox;
     private JCheckBox dockerfileCheckBox;
+    private JCheckBox googleJibCheckBox;
 
 
     @Override
@@ -130,10 +131,8 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
             SelectionContext.setFillFieldSelected(fillFieldCheckBox.isSelected());
         }
         SelectionContext.setDockerfileSelected(dockerfileCheckBox.isSelected());
+        SelectionContext.setJibSelected(googleJibCheckBox.isSelected());
         return super.validate();
     }
 
-    public JTextField getArtifactIdField() {
-        return myArtifactIdField;
-    }
 }

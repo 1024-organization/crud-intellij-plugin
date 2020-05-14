@@ -35,6 +35,58 @@ public class SelectionContext {
     private static String tablePrefix;
     private static boolean fillFieldSelected;
     private static boolean dockerfileSelected;
+    private static boolean jibSelected;
+
+    public static void clearAllSet() {
+        projectType = null;
+        conn = null;
+        db = null;
+        tables = null;
+        groupId = null;
+        artifactId = null;
+        version = null;
+        pkg = null;
+        daoPackage = null;
+        servicePackage = null;
+        controllerPackage = null;
+        mapperDir = null;
+        modelPackage = null;
+        ormType = 0;
+        paginationSelected = false;
+        performanceSelected = false;
+        optimisticLockerSelected = false;
+        dockerfileSelected = false;
+        jibSelected = false;
+    }
+
+    public static Selection copyToSelection() {
+        Selection selection = new Selection();
+        selection.setProjectType(projectType);
+        selection.setConn(conn);
+        selection.setDb(db);
+        selection.setTables(tables);
+        selection.setGroupId(groupId);
+        selection.setArtifactId(artifactId);
+        selection.setVersion(version);
+        selection.setPackage(pkg);
+        selection.setDaoPackage(daoPackage);
+        selection.setServicePackage(servicePackage);
+        selection.setControllerPackage(controllerPackage);
+        selection.setMapperDir(mapperDir);
+        selection.setModelPackage(modelPackage);
+        selection.setOrmType(ormType);
+        selection.setPaginationSelected(paginationSelected);
+        selection.setPerformanceSelected(performanceSelected);
+        selection.setOptimisticLockerSelected(optimisticLockerSelected);
+        selection.setActiveRecordModelSelected(activeRecordModelSelected);
+        selection.setLombokSelected(lombokSelected);
+        selection.setAuthor(author);
+        selection.setTablePrefix(tablePrefix);
+        selection.setFillFieldSelected(fillFieldSelected);
+        selection.setDockerfileSelected(dockerfileSelected);
+        selection.setJibSelected(jibSelected);
+        return selection;
+    }
 
     public static Conn getConn() {
         return conn;
@@ -99,54 +151,6 @@ public class SelectionContext {
 
     public static void setPackage(String pkg) {
         SelectionContext.pkg = pkg;
-    }
-
-    public static void clearAllSet() {
-        projectType = null;
-        conn = null;
-        db = null;
-        tables = null;
-        groupId = null;
-        artifactId = null;
-        version = null;
-        pkg = null;
-        daoPackage = null;
-        servicePackage = null;
-        controllerPackage = null;
-        mapperDir = null;
-        modelPackage = null;
-        ormType = 0;
-        paginationSelected = false;
-        performanceSelected = false;
-        optimisticLockerSelected = false;
-    }
-
-    public static Selection copyToSelection() {
-        Selection selection = new Selection();
-        selection.setProjectType(projectType);
-        selection.setConn(conn);
-        selection.setDb(db);
-        selection.setTables(tables);
-        selection.setGroupId(groupId);
-        selection.setArtifactId(artifactId);
-        selection.setVersion(version);
-        selection.setPackage(pkg);
-        selection.setDaoPackage(daoPackage);
-        selection.setServicePackage(servicePackage);
-        selection.setControllerPackage(controllerPackage);
-        selection.setMapperDir(mapperDir);
-        selection.setModelPackage(modelPackage);
-        selection.setOrmType(ormType);
-        selection.setPaginationSelected(paginationSelected);
-        selection.setPerformanceSelected(performanceSelected);
-        selection.setOptimisticLockerSelected(optimisticLockerSelected);
-        selection.setActiveRecordModelSelected(activeRecordModelSelected);
-        selection.setLombokSelected(lombokSelected);
-        selection.setAuthor(author);
-        selection.setTablePrefix(tablePrefix);
-        selection.setFillFieldSelected(fillFieldSelected);
-        selection.setDockerfileSelected(dockerfileSelected);
-        return selection;
     }
 
     public static void setOrmType(int ormType) {
@@ -267,5 +271,13 @@ public class SelectionContext {
 
     public static boolean getDockerfileSelected() {
         return dockerfileSelected;
+    }
+
+    public static boolean isJibSelected() {
+        return jibSelected;
+    }
+
+    public static void setJibSelected(boolean jibSelected) {
+        SelectionContext.jibSelected = jibSelected;
     }
 }

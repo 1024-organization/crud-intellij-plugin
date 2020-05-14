@@ -164,6 +164,52 @@
                 </executions>
             </plugin>
             </#if>
+            <#if jibSelected>
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>1.6.1</version>
+                    <configuration>
+                        <from>
+                            <image>openjdk:8u242-jre-slim</image>
+                        </from>
+                        <to>
+                            <#--配置镜像仓库地址-->
+                            <image>${r'${artifactId}'}</image>
+                            <tags>
+                                <tag>${r'${project.version}'}</tag>
+                            </tags>
+                        </to>
+                        <container>
+                            <mainClass>${package}.Application</mainClass>
+                            <jvmFlags>
+                                <jvmFlag>-server</jvmFlag>
+                                <jvmFlag>-Xms512m</jvmFlag>
+                                <jvmFlag>-Xmx512m</jvmFlag>
+                                <jvmFlag>-Djava.awt.headless=true</jvmFlag>
+                                <jvmFlag>-Duser.timezone=PRC</jvmFlag>
+                            </jvmFlags>
+                            <environment>
+                                <server.port>8080</server.port>
+                            </environment>
+                            <ports>
+                                <port>80</port>
+                            </ports>
+                            <useCurrentTimestamp>true</useCurrentTimestamp>
+                        </container>
+                        <allowInsecureRegistries>true</allowInsecureRegistries>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>build-and-push-docker-image</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </#if>
         </plugins>
     </build>
 
