@@ -54,7 +54,7 @@ Crud Intellij Plugin
 
 Preferences -> Plugins -> Install Plugins from Disk -> 选择下载的zi包，点击确定。重启即可
 
-![image-20200514104216252](/Users/imyzt/Library/Application Support/typora-user-images/image-20200514104216252.png)
+![image-20200514104216252](http://blog.imyzt.top/upload/2020/05/3sj9jedo0gh7toa03fgdp3p3gl.png)
 
 
 
