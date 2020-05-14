@@ -122,6 +122,8 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         if (selection.getDockerfileSelected()) {
             PsiFileUtils.createFileByFileNameAndTemplateName(project, createOtherPackageDir("docker"), selection, "Dockerfile", "Dockerfile.ftl");
         }
+        // 生成gitlab-ci.yml
+        PsiFileUtils.createFileByFileNameAndTemplateName(project, createAndGetContentEntry(), selection, "gitlab-ci.yml", "gitlab-ci.yml.ftl");
 
         selection.setModelPackage(selection.getPackage() + ".model");
         selection.setDaoPackage(selection.getPackage() + ".dao");

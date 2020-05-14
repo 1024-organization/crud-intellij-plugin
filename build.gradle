@@ -47,6 +47,11 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
 <div>
+  <p>1.2.1</p> 
+  <ul> 
+    <li>support gitlab-ci.yml</li> 
+    <li>feature: jib修改原始镜像为公司镜像</li> 
+  </ul>
   <p>1.2.0</p> 
   <ul> 
     <li>fix 1.1.0 使用原作者的方案选择package</li> 

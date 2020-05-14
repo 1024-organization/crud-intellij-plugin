@@ -171,11 +171,11 @@
                     <version>1.6.1</version>
                     <configuration>
                         <from>
-                            <image>openjdk:8u242-jre-slim</image>
+                            <image>registry.cn-shenzhen.aliyuncs.com/ideamake/ideamake-market-cloud-openjdk8-openj9:v1.0.0</image>
                         </from>
                         <to>
                             <#--配置镜像仓库地址-->
-                            <image>${r'${artifactId}'}</image>
+                            <image>registry.cn-shenzhen.aliyuncs.com/ideamake/${r'${artifactId}'}</image>
                             <tags>
                                 <tag>${r'${project.version}'}</tag>
                             </tags>
