@@ -47,6 +47,12 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
 <div>
+  <p>1.2.0</p> 
+  <ul> 
+    <li>fix 1.1.0 使用原作者的方案选择package</li> 
+    <li>feature:增加google-jib作为docker打包的原则</li> 
+    <li>style:优化部分代码</li> 
+  </ul>
   <p>1.1.1</p> 
   <ul> 
     <li>fixbug 右键生成无法自动生成lombok和自动填充修改时间的bug</li> 

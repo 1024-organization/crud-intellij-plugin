@@ -14,8 +14,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 */
 @SpringBootApplication
 <#if ormType==0 || ormType==1>
-@MapperScan("${package}.dao")
+@MapperScan(basePackages = {
+    "${package}.dao"
+})
 </#if>
+@ComponentScan(basePackages = {
+    "${package}"
+})
 @EnableTransactionManagement
 public class Application {
 

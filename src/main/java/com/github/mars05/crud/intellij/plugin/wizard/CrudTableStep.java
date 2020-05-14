@@ -9,6 +9,7 @@ import com.github.mars05.crud.intellij.plugin.util.DbHelper;
 import com.github.mars05.crud.intellij.plugin.util.SelectionContext;
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import com.intellij.openapi.options.ConfigurationException;
+import org.springframework.util.CollectionUtils;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class CrudTableStep extends ModuleWizardStep {
     public boolean validate() throws ConfigurationException {
         try {
             List<ListElement> elements = myCrudTableView.getCrudList().getSelectedValuesList();
-            if (elements == null || elements.size() == 0) {
+            if (CollectionUtils.isEmpty(elements)) {
                 throw new Exception("请选择至少一个表");
             }
             List<Table> tables = new ArrayList<>();

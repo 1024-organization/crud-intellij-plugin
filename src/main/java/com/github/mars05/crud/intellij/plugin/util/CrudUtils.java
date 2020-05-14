@@ -29,6 +29,7 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.util.DisposeAwareRunnable;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import java.util.List;
 /**
  * @author xiaoyu
  */
+@UtilityClass
 public class CrudUtils {
     public static final String DEFAULT_CHARSET = "UTF-8";
 

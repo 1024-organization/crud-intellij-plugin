@@ -34,6 +34,7 @@ public class Selection {
     private String mapperDir;
     private String modelPackage;
     private boolean dockerfileSelected;
+    private boolean jibSelected;
 
     public String getProjectType() {
         return projectType;
@@ -217,5 +218,13 @@ public class Selection {
 
     public boolean getDockerfileSelected() {
         return dockerfileSelected;
+    }
+
+    public boolean isJibSelected() {
+        return jibSelected;
+    }
+
+    public void setJibSelected(boolean jibSelected) {
+        this.jibSelected = jibSelected;
     }
 }

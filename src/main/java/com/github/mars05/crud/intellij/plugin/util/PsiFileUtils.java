@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import com.github.mars05.crud.intellij.plugin.model.*;
 import com.google.common.base.CaseFormat;
 import com.intellij.openapi.project.Project;
@@ -19,23 +18,38 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.apache.commons.lang3.ArrayUtils;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.github.mars05.crud.intellij.plugin.util.SelectionContext.*;
+import static com.github.mars05.crud.intellij.plugin.util.CrudUtils.DEFAULT_CHARSET;
+import static com.github.mars05.crud.intellij.plugin.util.SelectionContext.MYBATIS;
+import static com.github.mars05.crud.intellij.plugin.util.SelectionContext.MYBATIS_PLUS;
 
 /**
  * @author xiaoyu
  */
+@UtilityClass
 public class PsiFileUtils {
+
     private static FreemarkerConfiguration freemarker = new FreemarkerConfiguration("/templates");
+
+    private static final Map<String, String> YML_MAP = new HashMap<>(5);
+    static {
+        YML_MAP.put("application.yml", "application.yml.ftl");
+        YML_MAP.put("application-local.yml", "application-local.yml.ftl");
+        YML_MAP.put("application-dev.yml", "application-dev.yml.ftl");
+        YML_MAP.put("application-test.yml", "application-test.yml.ftl");
+        YML_MAP.put("application-prod.yml", "application-prod.yml.ftl");
+    }
 
     /**
      * 一维: 模板类型
@@ -95,7 +109,7 @@ public class PsiFileUtils {
         StringWriter sw = new StringWriter();
         Template template = freemarker.getTemplate(templateName);
         template.process(selection, sw);
-        virtualFile.setBinaryContent(sw.toString().getBytes(CrudUtils.DEFAULT_CHARSET));
+        virtualFile.setBinaryContent(sw.toString().getBytes(DEFAULT_CHARSET));
     }
 
     public static void createPomXml(Project project, VirtualFile root, Selection selection) throws Exception {
@@ -103,7 +117,7 @@ public class PsiFileUtils {
         StringWriter sw = new StringWriter();
         Template template = freemarker.getTemplate("pom.ftl");
         template.process(selection, sw);
-        virtualFile.setBinaryContent(sw.toString().getBytes(CrudUtils.DEFAULT_CHARSET));
+        virtualFile.setBinaryContent(sw.toString().getBytes(DEFAULT_CHARSET));
     }
 
     public static void createSwagger(Project project, VirtualFile root, Selection selection) throws Exception {
@@ -111,7 +125,7 @@ public class PsiFileUtils {
         StringWriter sw = new StringWriter();
         Template template = freemarker.getTemplate("Swagger2Config.ftl");
         template.process(selection, sw);
-        virtualFile.setBinaryContent(sw.toString().getBytes(CrudUtils.DEFAULT_CHARSET));
+        virtualFile.setBinaryContent(sw.toString().getBytes(DEFAULT_CHARSET));
         CrudUtils.addWaitOptimizeFile(virtualFile);
     }
 
@@ -120,16 +134,18 @@ public class PsiFileUtils {
         StringWriter sw = new StringWriter();
         Template template = freemarker.getTemplate("Application.java.ftl");
         template.process(selection, sw);
-        virtualFile.setBinaryContent(sw.toString().getBytes(CrudUtils.DEFAULT_CHARSET));
+        virtualFile.setBinaryContent(sw.toString().getBytes(DEFAULT_CHARSET));
         CrudUtils.addWaitOptimizeFile(virtualFile);
     }
 
     public static void createApplicationYml(Project project, VirtualFile root, Selection selection) throws Exception {
-        VirtualFile virtualFile = root.createChildData(project, "application.yml");
-        StringWriter sw = new StringWriter();
-        Template template = freemarker.getTemplate("application.yml.ftl");
-        template.process(selection, sw);
-        virtualFile.setBinaryContent(sw.toString().getBytes(CrudUtils.DEFAULT_CHARSET));
+        for (Map.Entry<String, String> entry : YML_MAP.entrySet()) {
+            VirtualFile virtualFile = root.createChildData(project, entry.getKey());
+            StringWriter sw = new StringWriter();
+            Template template = freemarker.getTemplate(entry.getValue());
+            template.process(selection, sw);
+            virtualFile.setBinaryContent(sw.toString().getBytes(DEFAULT_CHARSET));
+        }
     }
 
     /**
@@ -140,7 +156,7 @@ public class PsiFileUtils {
         StringWriter sw = new StringWriter();
         Template template = freemarker.getTemplate("MybatisPlusConfig.java.ftl");
         template.process(selection, sw);
-        virtualFile.setBinaryContent(sw.toString().getBytes(CrudUtils.DEFAULT_CHARSET));
+        virtualFile.setBinaryContent(sw.toString().getBytes(DEFAULT_CHARSET));
     }
 
     /**
@@ -155,7 +171,7 @@ public class PsiFileUtils {
         StringWriter sw = new StringWriter();
         Template template = freemarker.getTemplate(TEMPLATE_ARR[arrIndex][base.getOrmType()]);
         template.process(base, sw);
-        virtualFile.setBinaryContent(sw.toString().getBytes(CrudUtils.DEFAULT_CHARSET));
+        virtualFile.setBinaryContent(sw.toString().getBytes(DEFAULT_CHARSET));
         CrudUtils.addWaitOptimizeFile(virtualFile);
     }
 
@@ -173,13 +189,13 @@ public class PsiFileUtils {
         List<Table> tables = selection.getTables();
         if (selection.getOrmType() == MYBATIS_PLUS) {
             // 调用MP代码生成
-            generatorMybatisPlus(project, selection, moduleRootPath, tables);
+            generatorMybatisPlus(selection, moduleRootPath, tables);
         } else {
             generatorMybatisOrJpa(project, selection, moduleRootPath, tables);
         }
     }
 
-    private static void generatorMybatisPlus(Project project, Selection selection, String moduleRootPath, List<Table> tables) {
+    private static void generatorMybatisPlus(Selection selection, String moduleRootPath, List<Table> tables) {
 
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
