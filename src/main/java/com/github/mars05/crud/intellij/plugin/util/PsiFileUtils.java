@@ -221,11 +221,7 @@ public class PsiFileUtils {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setParent(selection.getPackage());
-        pc.setController("web.controller");
-        pc.setService("service");
-        pc.setServiceImpl("service.impl");
-        pc.setMapper("dao.mapper");
-        pc.setEntity("pojo.entity");
+        setMybatisPlusCustomPath(pc, selection);
         pc.setXml("xml");
         mpg.setPackageInfo(pc);
 
@@ -273,6 +269,17 @@ public class PsiFileUtils {
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
+    }
+
+    private static void setMybatisPlusCustomPath(PackageConfig pc, Selection selection) {
+
+        String pck = selection.getPackage() + ".";
+
+        pc.setController(selection.getControllerPackage().replace(pck, ""));
+        pc.setService(selection.getServicePackage().replace(pck, ""));
+        pc.setServiceImpl(selection.getServicePackage().replace(pck, "") + ".impl");
+        pc.setMapper(selection.getDaoPackage().replace(pck, ""));
+        pc.setEntity(selection.getModelPackage().replace(pck, ""));
     }
 
     private static List<TableFill> configTableFillList() {
