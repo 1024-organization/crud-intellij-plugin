@@ -47,6 +47,11 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
 <div>
+  <p>1.2.2</p> 
+  <ul> 
+    <li>fix gitlab-ci.yml name</li> 
+    <li>fix 右键生成时支持选中自定义目录</li> 
+  </ul>
   <p>1.2.1</p> 
   <ul> 
     <li>support gitlab-ci.yml</li> 
