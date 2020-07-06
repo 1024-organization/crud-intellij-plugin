@@ -64,6 +64,8 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
         myFrameComboBox.addItemListener(e -> switchFrame());
 
         myControllerChoose.addActionListener(new AbstractAction() {
+
+            // TODO: 2020/7/5 增加基础包的检查, 不能选中低于基础包的路径
             @Override
             public void actionPerformed(ActionEvent e) {
                 PackageChooserDialog dialog = new PackageChooserDialog("Controller Package Choose", project);
