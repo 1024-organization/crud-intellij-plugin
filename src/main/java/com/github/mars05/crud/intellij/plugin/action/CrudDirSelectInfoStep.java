@@ -48,12 +48,16 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
     private Module myModule;
 
     public CrudDirSelectInfoStep(Project project, Module module) {
+
         myProject = project;
         myModule = module;
         myControllerField.setText(SelectionContext.getControllerPackage());
         myServiceField.setText(SelectionContext.getServicePackage());
         myDaoField.setText(SelectionContext.getDaoPackage());
         myModelField.setText(SelectionContext.getModelPackage());
+        authorField.setText(SelectionContext.getAuthor());
+        lombokCheckBox.setSelected(SelectionContext.getLombokSelected());
+
         ((TextFieldWithBrowseButton) myMapperField).setText(SelectionContext.getMapperDir());
 
         myControllerCheckBox.addChangeListener(e -> checkBoxSetup(myControllerCheckBox.isSelected()));
