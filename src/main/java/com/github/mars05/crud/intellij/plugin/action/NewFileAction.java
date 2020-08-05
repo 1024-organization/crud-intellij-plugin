@@ -123,7 +123,7 @@ public class NewFileAction extends AnAction {
 
             SelectionContext.setControllerPackage(basePackage + "web.controller");
             SelectionContext.setServicePackage(basePackage + "service");
-            SelectionContext.setDaoPackage(basePackage + "dao");
+            SelectionContext.setDaoPackage(basePackage + "dao.mapper");
             SelectionContext.setModelPackage(basePackage + "pojo.entity");
             SelectionContext.setMapperDir(moduleRootPath + "/src/main/resources/mapper");
 
