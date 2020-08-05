@@ -1,5 +1,7 @@
 package com.github.mars05.crud.intellij.plugin.action;
 
+import com.github.mars05.crud.intellij.plugin.setting.CrudSettings;
+import com.github.mars05.crud.intellij.plugin.setting.path.PackagePath;
 import com.github.mars05.crud.intellij.plugin.util.CrudUtils;
 import com.github.mars05.crud.intellij.plugin.util.PsiFileUtils;
 import com.github.mars05.crud.intellij.plugin.util.Selection;
@@ -20,7 +22,10 @@ import org.jetbrains.idea.maven.project.MavenProjectsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.intellij.openapi.actionSystem.CommonDataKeys.VIRTUAL_FILE;
 import static com.intellij.openapi.module.ModuleUtilCore.findModuleForFile;
@@ -47,21 +52,11 @@ public class NewFileAction extends AnAction {
 
         // 项目绝对路径
         String moduleRootPath = ModuleRootManager.getInstance(module).getContentRoots()[0].getPath();
-        String actionDir = virtualFile.getPath();
 
-        String str = StringUtils.substringAfter(actionDir, moduleRootPath + "/src/main/java/");
-        String basePackage = StringUtils.replace(str, "/", ".");
-        SelectionContext.clearAllSet();
+        String basePackage = getBasePackage(virtualFile, moduleRootPath);
 
-        SelectionContext.setPackage(basePackage);
-        if (StringUtils.isNotBlank(basePackage)) {
-            basePackage += ".";
-        }
-        SelectionContext.setControllerPackage(basePackage + "web.controller");
-        SelectionContext.setServicePackage(basePackage + "service");
-        SelectionContext.setDaoPackage(basePackage + "dao");
-        SelectionContext.setModelPackage(basePackage + "pojo.entity");
-        SelectionContext.setMapperDir(moduleRootPath + "/src/main/resources/mapper");
+        // 设置生成文件目录
+        this.packagePathSettings(basePackage, moduleRootPath, module);
 
         CrudActionDialog dialog = new CrudActionDialog(project, module);
         if (!dialog.showAndGet()) {
@@ -81,8 +76,81 @@ public class NewFileAction extends AnAction {
                 MavenProjectsManager.getInstance(project).forceUpdateAllProjectsOrFindAllAvailablePomFiles();
                 //优化生成的所有Java类
                 CrudUtils.doOptimize(project);
+                // 将包路径存储到配置文件中
+                savePackagePath(module, moduleRootPath, selection, basePackage);
             }
         }.execute());
+    }
+
+    private void savePackagePath(Module module, String moduleRootPath, Selection selection, String basePackage) {
+
+        Map<String, PackagePath> packagePathMap = Optional.ofNullable(CrudSettings.getInstance().getPckConfigs())
+                .orElse(new HashMap<>(2));
+
+        PackagePath packagePath = new PackagePath();
+        packagePath.setController(selection.getControllerPackage());
+        packagePath.setService(selection.getServicePackage());
+        packagePath.setDao(selection.getDaoPackage());
+        packagePath.setModal(selection.getModelPackage());
+        packagePath.setMapper(selection.getMapperDir());
+        packagePath.setAuthor(selection.getAuthor());
+        packagePath.setLombok(selection.isLombokSelected());
+        packagePath.setModuleRootPath(moduleRootPath);
+        packagePath.setBasePackage(basePackage);
+
+        packagePathMap.put(module.getName(), packagePath);
+    }
+
+    private void packagePathSettings(String basePackage, String moduleRootPath, Module module) {
+
+
+        // 查询配置中是否有设置, 如果有设置就使用配置中的.
+        // 在生成时, 比对, 如果修改了就将新的刷新进入配置文件中
+
+        PackagePath packagePath = Optional.ofNullable(CrudSettings.getInstance().getPckConfigs())
+                .map(d -> d.get(module.getName()))
+                .orElse(null);
+
+        // 原有逻辑
+        if (Objects.isNull(packagePath)) {
+
+            SelectionContext.clearAllSet();
+
+            SelectionContext.setPackage(basePackage);
+            if (StringUtils.isNotBlank(basePackage)) {
+                basePackage += ".";
+            }
+
+            SelectionContext.setControllerPackage(basePackage + "web.controller");
+            SelectionContext.setServicePackage(basePackage + "service");
+            SelectionContext.setDaoPackage(basePackage + "dao");
+            SelectionContext.setModelPackage(basePackage + "pojo.entity");
+            SelectionContext.setMapperDir(moduleRootPath + "/src/main/resources/mapper");
+
+            return;
+        }
+
+        // 记忆路径功能
+        basePackage = packagePath.getBasePackage();
+        SelectionContext.clearAllSet();
+        SelectionContext.setPackage(basePackage);
+
+        SelectionContext.setControllerPackage(packagePath.getController());
+        SelectionContext.setServicePackage(packagePath.getService());
+        SelectionContext.setDaoPackage(packagePath.getDao());
+        SelectionContext.setModelPackage(packagePath.getModal());
+        SelectionContext.setMapperDir(packagePath.getMapper());
+        SelectionContext.setLombokSelected(packagePath.getLombok());
+        SelectionContext.setAuthor(packagePath.getAuthor());
+
+
+    }
+
+    private String getBasePackage(VirtualFile virtualFile, String moduleRootPath) {
+        String actionDir = virtualFile.getPath();
+        String str = StringUtils.substringAfter(actionDir, moduleRootPath + "/src/main/java/");
+
+        return StringUtils.replace(str, "/", ".");
     }
 
 }
