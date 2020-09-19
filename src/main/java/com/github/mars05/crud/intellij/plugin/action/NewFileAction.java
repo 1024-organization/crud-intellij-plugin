@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import static com.intellij.openapi.actionSystem.CommonDataKeys.VIRTUAL_FILE;
 import static com.intellij.openapi.module.ModuleUtilCore.findModuleForFile;
@@ -87,18 +88,31 @@ public class NewFileAction extends AnAction {
         Map<String, PackagePath> packagePathMap = Optional.ofNullable(CrudSettings.getInstance().getPckConfigs())
                 .orElse(new HashMap<>(2));
 
-        PackagePath packagePath = new PackagePath();
-        packagePath.setController(selection.getControllerPackage());
-        packagePath.setService(selection.getServicePackage());
-        packagePath.setDao(selection.getDaoPackage());
-        packagePath.setModal(selection.getModelPackage());
-        packagePath.setMapper(selection.getMapperDir());
-        packagePath.setAuthor(selection.getAuthor());
-        packagePath.setLombok(selection.isLombokSelected());
+        PackagePath packagePath = Optional.ofNullable(packagePathMap.get(module.getName()))
+                .orElse(new PackagePath());
+
+        // 始终会有
         packagePath.setModuleRootPath(moduleRootPath);
         packagePath.setBasePackage(basePackage);
+        packagePath.setAuthor(selection.getAuthor());
+
+        // 无需处理
+        packagePath.setLombok(selection.isLombokSelected());
+
+        // 判空, 防止将空的存进去导致记忆的内容被刷掉
+        saveNotNull(selection.getControllerPackage(), packagePath::setController);
+        saveNotNull(selection.getServicePackage(), packagePath::setService);
+        saveNotNull(selection.getDaoPackage(), packagePath::setDao);
+        saveNotNull(selection.getModelPackage(), packagePath::setModal);
+        saveNotNull(selection.getMapperDir(), packagePath::setMapper);
 
         packagePathMap.put(module.getName(), packagePath);
+    }
+
+    private void saveNotNull(String value, Consumer<String> consumer) {
+        if (StringUtils.isNotBlank(value)) {
+            consumer.accept(value);
+        }
     }
 
     private void packagePathSettings(String basePackage, String moduleRootPath, Module module) {
@@ -123,7 +137,7 @@ public class NewFileAction extends AnAction {
 
             SelectionContext.setControllerPackage(basePackage + "web.controller");
             SelectionContext.setServicePackage(basePackage + "service");
-            SelectionContext.setDaoPackage(basePackage + "dao");
+            SelectionContext.setDaoPackage(basePackage + "dao.mapper");
             SelectionContext.setModelPackage(basePackage + "pojo.entity");
             SelectionContext.setMapperDir(moduleRootPath + "/src/main/resources/mapper");
 

@@ -47,6 +47,15 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
 <div>
+  <p>1.4.0</p> 
+  <ul> 
+    <li>feature:右键生成时可选择生成Controller/Service/Mapper/Modal等内容</li> 
+    <li>style:优化了组件展示效果</li> 
+  </ul>
+  <p>1.3.1</p> 
+  <ul> 
+    <li>bugfix:修复生成项目没有application-{env}.yml报错的问题</li> 
+  </ul>
   <p>1.3.0</p> 
   <ul> 
     <li>feature:增加路径记忆功能,右键生成选择的路径将会在下次生成时自动填充</li> 

@@ -24,10 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static com.github.mars05.crud.intellij.plugin.util.CrudUtils.DEFAULT_CHARSET;
@@ -221,7 +219,9 @@ public class PsiFileUtils {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setParent(selection.getPackage());
+
         setMybatisPlusCustomPath(pc, selection);
+
         pc.setXml("xml");
         mpg.setPackageInfo(pc);
 
@@ -233,21 +233,38 @@ public class PsiFileUtils {
             }
         };
         List<FileOutConfig> focList = new ArrayList<>();
-        focList.add(new FileOutConfig(TEMPLATE_ARR[5][0]) {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输入文件名称
-                return moduleRootPath + "/src/main/resources/mapper/"  + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-            }
-        });
-        cfg.setFileOutConfigList(focList);
+
+        // 防止只生成Modal时的空指针
+        if (Objects.nonNull(selection.getMapperDir())) {
+            focList.add(new FileOutConfig(TEMPLATE_ARR[5][0]) {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    // 自定义输入文件名称
+                    String mapperDir = selection.getMapperDir();
+                    String xmlDir = mapperDir.endsWith("/") ? mapperDir : mapperDir + "/";
+                    return xmlDir  + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                    // return moduleRootPath + "/src/main/resources/mapper/"  + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                }
+            });
+            cfg.setFileOutConfigList(focList);
+        }
+
         TemplateConfig tc = new TemplateConfig();
-        tc.setController(TEMPLATE_ARR[0][0]);
-        tc.setService(TEMPLATE_ARR[1][0]);
-        tc.setServiceImpl(TEMPLATE_ARR[2][0]);
-        tc.setEntity(TEMPLATE_ARR[3][0]);
-        tc.setMapper(TEMPLATE_ARR[4][0]);
-        tc.setXml(null);
+        // 清除所有模板, 需要哪一个生成哪一个
+        tc.setController(null).setServiceImpl(null).setService(null).setEntity(null).setMapper(null).setXml(null);
+        if (StringUtils.isNotBlank(selection.getControllerPackage())) {
+            tc.setController(TEMPLATE_ARR[0][0]);
+        }
+        if (StringUtils.isNotBlank(selection.getServicePackage())) {
+            tc.setService(TEMPLATE_ARR[1][0]);
+            tc.setServiceImpl(TEMPLATE_ARR[2][0]);
+        }
+        if (StringUtils.isNotBlank(selection.getModelPackage())) {
+            tc.setEntity(TEMPLATE_ARR[3][0]);
+        }
+        if (StringUtils.isNotBlank(selection.getDaoPackage())) {
+            tc.setMapper(TEMPLATE_ARR[4][0]);
+        }
 
         mpg.setTemplate(tc);
         mpg.setCfg(cfg);
@@ -275,11 +292,21 @@ public class PsiFileUtils {
 
         String pck = selection.getPackage() + ".";
 
-        pc.setController(selection.getControllerPackage().replace(pck, ""));
-        pc.setService(selection.getServicePackage().replace(pck, ""));
-        pc.setServiceImpl(selection.getServicePackage().replace(pck, "") + ".impl");
-        pc.setMapper(selection.getDaoPackage().replace(pck, ""));
-        pc.setEntity(selection.getModelPackage().replace(pck, ""));
+        setNotNull(selection.getControllerPackage(), pck, pc::setController);
+        setNotNull(selection.getServicePackage(), pck, pc::setService);
+        setNotNull(selection.getModelPackage(), pck, pc::setEntity);
+        setNotNull(selection.getDaoPackage(), pck, pc::setMapper);
+
+        if (Objects.nonNull(selection.getServicePackage())) {
+            pc.setServiceImpl(selection.getServicePackage().replace(pck, "") + ".impl");
+        }
+
+    }
+
+    private static void setNotNull(String value, String pck, Consumer<String> consumer) {
+        if (StringUtils.isNotBlank(value)) {
+            consumer.accept(value.replace(pck, ""));
+        }
     }
 
     private static List<TableFill> configTableFillList() {

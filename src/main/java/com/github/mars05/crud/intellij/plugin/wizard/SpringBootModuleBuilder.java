@@ -125,13 +125,16 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         // 生成gitlab-ci.yml
         PsiFileUtils.createFileByFileNameAndTemplateName(project, createAndGetContentEntry(), selection, ".gitlab-ci.yml", "gitlab-ci.yml.ftl");
 
-        selection.setModelPackage(selection.getPackage() + ".model");
-        selection.setDaoPackage(selection.getPackage() + ".dao");
+        selection.setServicePackage(selection.getPackage() + ".service");
+        selection.setControllerPackage(selection.getPackage() + ".web.controller");
+        selection.setModelPackage(selection.getPackage() + ".pojo.entity");
+
         if (selection.getOrmType() == MYBATIS || selection.getOrmType() == MYBATIS_PLUS) {
             selection.setMapperDir(getContentEntryPath() + "/src/main/resources/mapper");
+            selection.setDaoPackage(selection.getPackage() + ".dao.mapper");
+        } else {
+            selection.setDaoPackage(selection.getPackage() + ".dao.repository");
         }
-        selection.setServicePackage(selection.getPackage() + ".service");
-        selection.setControllerPackage(selection.getPackage() + ".controller");
 
         // 生成代码核心
         PsiFileUtils.createCrud(project, selection, getContentEntryPath());

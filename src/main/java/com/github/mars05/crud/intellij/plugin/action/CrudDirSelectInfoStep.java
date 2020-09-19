@@ -39,7 +39,8 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
     private JTextField myModelField;
     private JButton myModelChoose;
     private JPanel myPackagePanel;
-    private JLabel myMapperLabel;
+    // private JLabel myMapperLabel;
+    private JCheckBox mapperCheckBox;
     private JTextField authorField;
     private JCheckBox lombokCheckBox;
     private JCheckBox fillFieldCheckBox;
@@ -63,6 +64,7 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
         myControllerCheckBox.addChangeListener(e -> checkBoxSetup(myControllerCheckBox.isSelected()));
         myServiceCheckBox.addChangeListener(e -> checkBoxSetup(myServiceCheckBox.isSelected()));
         myDaoCheckBox.addChangeListener(e -> checkBoxSetup(myDaoCheckBox.isSelected()));
+        mapperCheckBox.addChangeListener(e -> checkBoxSetup(mapperCheckBox.isSelected()));
         myModelCheckBox.addChangeListener(e -> checkBoxSetup(myModelCheckBox.isSelected()));
 
         myFrameComboBox.addItemListener(e -> switchFrame());
@@ -202,10 +204,10 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
     private void switchFrame() {
         // 当选中JPA时, 不需要显示Mapper的框
         if (JPA == myFrameComboBox.getSelectedIndex()) {
-            myMapperLabel.setVisible(false);
+            mapperCheckBox.setVisible(false);
             myMapperField.setVisible(false);
         } else {
-            myMapperLabel.setVisible(true);
+            mapperCheckBox.setVisible(true);
             myMapperField.setVisible(true);
         }
     }
@@ -216,22 +218,34 @@ public class CrudDirSelectInfoStep extends ModuleWizardStep {
             if (myControllerCheckBox.isSelected()) {
                 myModelCheckBox.setSelected(true);
                 myDaoCheckBox.setSelected(true);
+                mapperCheckBox.setSelected(true);
                 myServiceCheckBox.setSelected(true);
             } else if (myServiceCheckBox.isSelected()) {
                 myModelCheckBox.setSelected(true);
                 myDaoCheckBox.setSelected(true);
+                mapperCheckBox.setSelected(true);
             } else if (myDaoCheckBox.isSelected()) {
+                mapperCheckBox.setSelected(true);
+                myModelCheckBox.setSelected(true);
+            } else if (mapperCheckBox.isSelected()) {
+                myDaoCheckBox.setSelected(true);
                 myModelCheckBox.setSelected(true);
             }
         } else {
             if (!myModelCheckBox.isSelected()) {
                 //处理没选中
                 myDaoCheckBox.setSelected(false);
+                mapperCheckBox.setSelected(false);
                 myServiceCheckBox.setSelected(false);
                 myControllerCheckBox.setSelected(false);
             } else if (!myDaoCheckBox.isSelected()) {
                 myServiceCheckBox.setSelected(false);
                 myControllerCheckBox.setSelected(false);
+                mapperCheckBox.setSelected(false);
+            } else if (!mapperCheckBox.isSelected()) {
+                myServiceCheckBox.setSelected(false);
+                myControllerCheckBox.setSelected(false);
+                myDaoCheckBox.setSelected(false);
             } else if (!myServiceCheckBox.isSelected()) {
                 myControllerCheckBox.setSelected(false);
             }
