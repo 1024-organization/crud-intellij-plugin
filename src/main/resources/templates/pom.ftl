@@ -171,7 +171,11 @@
                     <version>1.6.1</version>
                     <configuration>
                         <from>
-                            <image>registry.cn-shenzhen.aliyuncs.com/ideamake/ideamake-market-cloud-openjdk8-openj9:v1.0.0</image>
+                            <#if jdkType==0>
+                            <image>registry.cn-shenzhen.aliyuncs.com/ideamake/ideamake-openjdk8-openj9:v1.0.0</image>
+                            <#elseif jdkType==1>
+                            <image>registry.cn-shenzhen.aliyuncs.com/ideamake/ideamake-openjdk8:v1.0.0</image>
+                            </#if>
                         </from>
                         <to>
                             <#--配置镜像仓库地址-->

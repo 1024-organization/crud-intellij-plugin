@@ -47,6 +47,12 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
 <div>
+  <p>1.4.1</p> 
+  <ul> 
+    <li>feature:创建项目时支持选择JDK</li> 
+    <li>feature:生成项目时默认选择google-jib打包方式</li> 
+    <li>fix:生成项目时不再创建application-[dev/test/prod].yml</li> 
+  </ul>
   <p>1.4.0</p> 
   <ul> 
     <li>feature:右键生成时可选择生成Controller/Service/Mapper/Modal等内容</li> 

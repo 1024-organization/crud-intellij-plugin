@@ -35,6 +35,7 @@ public class Selection {
     private String modelPackage;
     private boolean dockerfileSelected;
     private boolean jibSelected;
+    private int jdkType;
 
     public String getProjectType() {
         return projectType;
@@ -226,5 +227,13 @@ public class Selection {
 
     public void setJibSelected(boolean jibSelected) {
         this.jibSelected = jibSelected;
+    }
+
+    public int getJdkType() {
+        return jdkType;
+    }
+
+    public void setJdkType(int jdkType) {
+        this.jdkType = jdkType;
     }
 }

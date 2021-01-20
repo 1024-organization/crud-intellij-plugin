@@ -1,4 +1,8 @@
-FROM openjdk:8-jdk-alpine
+<#if jdkType==0>
+FROM registry.cn-shenzhen.aliyuncs.com/ideamake/ideamake-openjdk8-openj9:v1.0.0
+<#elseif jdkType==1>
+FROM registry.cn-shenzhen.aliyuncs.com/ideamake/ideamake-openjdk8:v1.0.0
+</#if>
 
 #维护者信息
 LABEL maintainer "${author}@example.com"

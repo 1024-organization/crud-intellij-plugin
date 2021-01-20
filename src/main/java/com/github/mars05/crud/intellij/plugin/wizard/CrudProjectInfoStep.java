@@ -33,6 +33,7 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
     private JCheckBox fillFieldCheckBox;
     private JCheckBox dockerfileCheckBox;
     private JCheckBox googleJibCheckBox;
+    private JComboBox jdkComboBox;
 
 
     @Override
@@ -132,6 +133,7 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
         }
         SelectionContext.setDockerfileSelected(dockerfileCheckBox.isSelected());
         SelectionContext.setJibSelected(googleJibCheckBox.isSelected());
+        SelectionContext.setJdkType(jdkComboBox.getSelectedIndex());
         return super.validate();
     }
 

@@ -44,9 +44,9 @@ public class PsiFileUtils {
     static {
         YML_MAP.put("application.yml", "application.yml.ftl");
         YML_MAP.put("application-local.yml", "application-local.yml.ftl");
-        YML_MAP.put("application-dev.yml", "application-dev.yml.ftl");
-        YML_MAP.put("application-test.yml", "application-test.yml.ftl");
-        YML_MAP.put("application-prod.yml", "application-prod.yml.ftl");
+//        YML_MAP.put("application-dev.yml", "application-dev.yml.ftl");
+//        YML_MAP.put("application-test.yml", "application-test.yml.ftl");
+//        YML_MAP.put("application-prod.yml", "application-prod.yml.ftl");
     }
 
     /**

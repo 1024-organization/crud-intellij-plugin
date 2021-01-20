@@ -12,6 +12,10 @@ public class SelectionContext {
     public static final int MYBATIS_PLUS = 0;
     public static final int MYBATIS = 1;
     public static final int JPA = 2;
+
+    public static final int OPEN_JDK_8_OPEN_J9 = 0;
+    public static final int OPEN_JDK_8 = 1;
+
     private static String projectType;
     private static int ormType;
     private static Conn conn;
@@ -36,6 +40,7 @@ public class SelectionContext {
     private static boolean fillFieldSelected;
     private static boolean dockerfileSelected;
     private static boolean jibSelected;
+    private static int jdkType;
 
     public static void clearAllSet() {
         projectType = null;
@@ -57,6 +62,7 @@ public class SelectionContext {
         optimisticLockerSelected = false;
         dockerfileSelected = false;
         jibSelected = false;
+        jdkType = 0;
     }
 
     public static Selection copyToSelection() {
@@ -85,6 +91,7 @@ public class SelectionContext {
         selection.setFillFieldSelected(fillFieldSelected);
         selection.setDockerfileSelected(dockerfileSelected);
         selection.setJibSelected(jibSelected);
+        selection.setJdkType(jdkType);
         return selection;
     }
 
@@ -279,5 +286,13 @@ public class SelectionContext {
 
     public static void setJibSelected(boolean jibSelected) {
         SelectionContext.jibSelected = jibSelected;
+    }
+
+    public static int getJdkType() {
+        return jdkType;
+    }
+
+    public static void setJdkType(int jdkType) {
+        SelectionContext.jdkType = jdkType;
     }
 }
