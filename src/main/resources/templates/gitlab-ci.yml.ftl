@@ -13,7 +13,7 @@ stages:
 integration-api-build:
   stage: build
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment integration --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment integration --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - integration
   tags:
@@ -22,7 +22,7 @@ integration-api-build:
 integration-api-deploy:
   stage: deploy
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment integration --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment integration --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - integration
   tags:
@@ -31,7 +31,7 @@ integration-api-deploy:
 integration-api-rollback:
   stage: rollback
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment integration --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment integration --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - integration
   tags:
@@ -42,7 +42,7 @@ integration-api-rollback:
 test6-api-build:
   stage: build
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 6
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 6 --appid ${artifactId}
   only:
     - test6
   tags:
@@ -51,7 +51,7 @@ test6-api-build:
 test6-api-deploy:
   stage: deploy
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 6
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 6 --appid ${artifactId}
   only:
     - test6
   tags:
@@ -60,7 +60,7 @@ test6-api-deploy:
 test6-api-rollback:
   stage: rollback
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 6
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 6 --appid ${artifactId}
   only:
     - test6
   tags:
@@ -71,7 +71,7 @@ test6-api-rollback:
 test5-api-build:
   stage: build
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 5
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 5 --appid ${artifactId}
   only:
     - test5
   tags:
@@ -80,7 +80,7 @@ test5-api-build:
 test5-api-deploy:
   stage: deploy
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 5
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 5 --appid ${artifactId}
   only:
     - test5
   tags:
@@ -89,7 +89,7 @@ test5-api-deploy:
 test5-api-rollback:
   stage: rollback
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 5
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 5 --appid ${artifactId}
   only:
     - test5
   tags:
@@ -100,7 +100,7 @@ test5-api-rollback:
 test4-api-build:
   stage: build
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 4
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 4 --appid ${artifactId}
   only:
     - test4
   tags:
@@ -109,7 +109,7 @@ test4-api-build:
 test4-api-deploy:
   stage: deploy
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 4
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 4 --appid ${artifactId}
   only:
     - test4
   tags:
@@ -118,7 +118,7 @@ test4-api-deploy:
 test4-api-rollback:
   stage: rollback
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 4
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 4 --appid ${artifactId}
   only:
     - test4
   tags:
@@ -129,7 +129,7 @@ test4-api-rollback:
 test3-api-build:
   stage: build
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 3
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 3 --appid ${artifactId}
   only:
     - test3
   tags:
@@ -138,7 +138,7 @@ test3-api-build:
 test3-api-deploy:
   stage: deploy
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 3
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 3 --appid ${artifactId}
   only:
     - test3
   tags:
@@ -147,7 +147,7 @@ test3-api-deploy:
 test3-api-rollback:
   stage: rollback
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 3
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 3 --appid ${artifactId}
   only:
     - test3
   tags:
@@ -158,7 +158,7 @@ test3-api-rollback:
 test2-api-build:
   stage: build
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 2
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 2 --appid ${artifactId}
   only:
     - test2
   tags:
@@ -167,7 +167,7 @@ test2-api-build:
 test2-api-deploy:
   stage: deploy
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 2
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 2 --appid ${artifactId}
   only:
     - test2
   tags:
@@ -176,7 +176,7 @@ test2-api-deploy:
 test2-api-rollback:
   stage: rollback
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 2
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --project ${r'${CI_PROJECT_NAME}'} --shadow 2 --appid ${artifactId}
   only:
     - test2
   tags:
@@ -187,7 +187,7 @@ test2-api-rollback:
 test-api-build:
   stage: build
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --code swt14 --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment test --code swt14 --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - test
   tags:
@@ -196,7 +196,7 @@ test-api-build:
 test-api-deploy:
   stage: deploy
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --code swt14 --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment test --code swt14 --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - test
   tags:
@@ -205,7 +205,7 @@ test-api-deploy:
 test-api-rollback:
   stage: rollback
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --code swt14 --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment test --code swt14 --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - test
   tags:
@@ -216,7 +216,7 @@ test-api-rollback:
 pre-api-build:
   stage: build
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment pre --code swt14 --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment pre --code swt14 --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - pre
   tags:
@@ -225,7 +225,7 @@ pre-api-build:
 pre-api-deploy:
   stage: deploy
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment pre --code swt14 --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment pre --code swt14 --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - pre
   tags:
@@ -234,7 +234,7 @@ pre-api-deploy:
 pre-api-rollback:
   stage: rollback
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment pre --code swt14 --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment pre --code swt14 --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - pre
   tags:
@@ -245,7 +245,7 @@ pre-api-rollback:
 prod-api-build:
   stage: build
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment prod --code swt14 --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage build --type api --environment prod --code swt14 --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - prod
   tags:
@@ -254,7 +254,7 @@ prod-api-build:
 prod-api-deploy:
   stage: deploy
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment prod --code swt14 --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage deploy --type api --environment prod --code swt14 --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - prod
   tags:
@@ -264,7 +264,7 @@ prod-api-deploy:
 prod-api-rollback:
   stage: rollback
   script:
-    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment prod --code swt14 --project ${r'${CI_PROJECT_NAME}'}
+    - sh ${r'${DEPLOYMENT_SHELL_PATH}'} --stage rollback --type api --environment prod --code swt14 --project ${r'${CI_PROJECT_NAME}'} --appid ${artifactId}
   only:
     - prod
   tags:

@@ -34,6 +34,8 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
     private JCheckBox dockerfileCheckBox;
     private JCheckBox googleJibCheckBox;
     private JComboBox jdkComboBox;
+    private JCheckBox gitInitBox;
+    private JTextField gitRepUrl;
 
 
     @Override
@@ -116,6 +118,9 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
         if (StringUtil.isEmptyOrSpaces(myPackageField.getText())) {
             throw new ConfigurationException(CrudBundle.message("projectinfo.validate.package"));
         }
+        if (gitInitBox.isSelected() && StringUtils.isBlank(gitRepUrl.getText())) {
+            throw new ConfigurationException(CrudBundle.message("projectinfo.validate.gitRepUrl"));
+        }
 
         SelectionContext.setGroupId(myGroupIdField.getText());
         SelectionContext.setArtifactId(myArtifactIdField.getText());
@@ -134,6 +139,8 @@ public class CrudProjectInfoStep extends ModuleWizardStep {
         SelectionContext.setDockerfileSelected(dockerfileCheckBox.isSelected());
         SelectionContext.setJibSelected(googleJibCheckBox.isSelected());
         SelectionContext.setJdkType(jdkComboBox.getSelectedIndex());
+        SelectionContext.setGitInit(gitInitBox.isSelected());
+        SelectionContext.setGitRepUrl(gitRepUrl.getText());
         return super.validate();
     }
 

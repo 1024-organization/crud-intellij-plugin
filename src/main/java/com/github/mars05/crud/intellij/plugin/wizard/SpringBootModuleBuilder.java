@@ -77,7 +77,7 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
     }
 
     @Override
-    public void setupRootModel(ModifiableRootModel rootModel) throws ConfigurationException {
+    public void setupRootModel(ModifiableRootModel rootModel) {
         Selection selection = SelectionContext.copyToSelection();
         if (this.myJdk != null) {
             rootModel.setSdk(this.myJdk);
@@ -142,6 +142,12 @@ public class SpringBootModuleBuilder extends ModuleBuilder {
         MavenProjectsManager.getInstance(project).forceUpdateAllProjectsOrFindAllAvailablePomFiles();
         //优化生成的所有Java类
         CrudUtils.doOptimize(project);
+        // git init
+        if (selection.isGitInit()) {
+            Runtime.getRuntime().exec("git init " + getContentEntryPath());
+            Runtime.getRuntime().exec("git remote add origin " + selection.getGitRepUrl(), null, new File(getContentEntryPath()));
+            Runtime.getRuntime().exec("git add .", null, new File(getContentEntryPath()));
+        }
     }
 
     private VirtualFile createAndGetContentEntry() {

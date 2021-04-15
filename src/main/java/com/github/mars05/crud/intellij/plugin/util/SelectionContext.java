@@ -41,6 +41,8 @@ public class SelectionContext {
     private static boolean dockerfileSelected;
     private static boolean jibSelected;
     private static int jdkType;
+    private static boolean gitInit;
+    private static String gitRepUrl;
 
     public static void clearAllSet() {
         projectType = null;
@@ -63,6 +65,8 @@ public class SelectionContext {
         dockerfileSelected = false;
         jibSelected = false;
         jdkType = 0;
+        gitInit = false;
+        gitRepUrl = null;
     }
 
     public static Selection copyToSelection() {
@@ -92,6 +96,8 @@ public class SelectionContext {
         selection.setDockerfileSelected(dockerfileSelected);
         selection.setJibSelected(jibSelected);
         selection.setJdkType(jdkType);
+        selection.setGitInit(gitInit);
+        selection.setGitRepUrl(gitRepUrl);
         return selection;
     }
 
@@ -294,5 +300,21 @@ public class SelectionContext {
 
     public static void setJdkType(int jdkType) {
         SelectionContext.jdkType = jdkType;
+    }
+
+    public static String getGitRepUrl() {
+        return gitRepUrl;
+    }
+
+    public static void setGitRepUrl(String gitRepUrl) {
+        SelectionContext.gitRepUrl = gitRepUrl;
+    }
+
+    public static boolean isGitInit() {
+        return gitInit;
+    }
+
+    public static void setGitInit(boolean gitInit) {
+        SelectionContext.gitInit = gitInit;
     }
 }

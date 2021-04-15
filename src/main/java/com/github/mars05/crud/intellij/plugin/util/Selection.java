@@ -36,6 +36,9 @@ public class Selection {
     private boolean dockerfileSelected;
     private boolean jibSelected;
     private int jdkType;
+    private boolean gitInit;
+    private String gitRepUrl;
+
 
     public String getProjectType() {
         return projectType;
@@ -235,5 +238,21 @@ public class Selection {
 
     public void setJdkType(int jdkType) {
         this.jdkType = jdkType;
+    }
+
+    public String getGitRepUrl() {
+        return gitRepUrl;
+    }
+
+    public void setGitRepUrl(String gitRepUrl) {
+        this.gitRepUrl = gitRepUrl;
+    }
+
+    public boolean isGitInit() {
+        return gitInit;
+    }
+
+    public void setGitInit(boolean gitInit) {
+        this.gitInit = gitInit;
     }
 }
